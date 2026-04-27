@@ -14,11 +14,6 @@
 
     <form id="reviewForm">
       <label>
-        Submission Date
-        <input type="date" id="submissionDate" required />
-      </label>
-
-      <label>
         Program
         <select id="program" required>
           <option value="">Select a program</option>
@@ -63,6 +58,11 @@
 
       <button type="submit" id="submitButton">Submit Review</button>
     </form>
+
+    <div id="confirmationMessage" style="display: none;">
+        <h2>Your submission has been received.</h2>
+        <p>Thank you for your feedback.</p>
+    </div>
 
     <p id="statusMessage"></p>
   </main>

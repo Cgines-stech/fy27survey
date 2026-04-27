@@ -29,6 +29,8 @@ const programSelect = document.getElementById("program");
 const courseSelect = document.getElementById("course");
 const instructorSelect = document.getElementById("instructorName");
 
+const confirmationMessage = document.getElementById("confirmationMessage");
+
 populateDropdown(programSelect, Object.keys(data));
 
 programSelect.addEventListener("change", function () {
@@ -74,7 +76,7 @@ form.addEventListener("submit", async function (event) {
   submitButton.textContent = "Submitting...";
 
 const formData = {
-  submissionDate: formatDate(document.getElementById("submissionDate").value),
+  submissionDate: new Date().toLocaleDateString("en-US"),
   program: programSelect.value,
   course: courseSelect.value,
   instructorName: instructorSelect.value,
@@ -84,24 +86,21 @@ const formData = {
   createdAt: serverTimestamp()
 };
 
-  try {
-    await addDoc(collection(db, "anonymousResponses"), formData);
+try {
+  await addDoc(collection(db, "anonymousResponses"), formData);
 
-    statusMessage.textContent = "Thank you! Your review has been submitted.";
-    statusMessage.style.color = "green";
+  statusMessage.textContent = "";
+  form.style.display = "none";
+  confirmationMessage.style.display = "block";
+} catch (error) {
+  console.error("Error submitting form:", error);
 
-    form.reset();
-    resetDropdown(courseSelect, "Select a program first");
-    resetDropdown(instructorSelect, "Select a course first");
-  } catch (error) {
-    console.error("Error submitting form:", error);
-
-    statusMessage.textContent = "There was an error submitting the form. Please try again.";
-    statusMessage.style.color = "red";
-  } finally {
-    submitButton.disabled = false;
-    submitButton.textContent = "Submit Review";
-  }
+  statusMessage.textContent = "There was an error submitting the form. Please try again.";
+  statusMessage.style.color = "red";
+} finally {
+  submitButton.disabled = false;
+  submitButton.textContent = "Submit Review";
+}
 });
 
 function populateDropdown(selectElement, options) {
