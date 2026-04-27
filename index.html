@@ -1,0 +1,73 @@
+<!--index.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FY27 Survey</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>FY27 Survey</h1>
+    <p class="intro">Please complete the form below.</p>
+
+    <form id="reviewForm">
+      <label>
+        Submission Date
+        <input type="date" id="submissionDate" required />
+      </label>
+
+      <label>
+        Program
+        <select id="program" required>
+          <option value="">Select a program</option>
+        </select>
+      </label>
+
+      <label>
+        Course
+        <select id="course" required disabled>
+          <option value="">Select a program first</option>
+        </select>
+      </label>
+
+      <label>
+        Instructor's Name
+        <select id="instructorName" required disabled>
+          <option value="">Select a course first</option>
+        </select>
+      </label>
+
+      <label>
+        Instructor Review
+        <select id="instructorReview" required>
+          <option value="">Select a rating</option>
+          <option value="Poor">Poor</option>
+          <option value="Good">Good</option>
+          <option value="Excellent">Excellent</option>
+          <option value="N/A">N/A</option>
+        </select>
+      </label>
+
+      <label>
+        Course Review
+        <select id="courseReview" required>
+          <option value="">Select a rating</option>
+          <option value="Poor">Poor</option>
+          <option value="Good">Good</option>
+          <option value="Excellent">Excellent</option>
+          <option value="N/A">N/A</option>
+        </select>
+      </label>
+
+      <button type="submit" id="submitButton">Submit Review</button>
+    </form>
+
+    <p id="statusMessage"></p>
+  </main>
+
+  <script src="data.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>
