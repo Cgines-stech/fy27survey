@@ -73,15 +73,16 @@ form.addEventListener("submit", async function (event) {
   submitButton.disabled = true;
   submitButton.textContent = "Submitting...";
 
-  const formData = {
-    submissionDate: formatDate(document.getElementById("submissionDate").value),
-    program: programSelect.value,
-    course: courseSelect.value,
-    instructorName: instructorSelect.value,
-    instructorReview: document.getElementById("instructorReview").value,
-    courseReview: document.getElementById("courseReview").value,
-    createdAt: serverTimestamp()
-  };
+const formData = {
+  submissionDate: formatDate(document.getElementById("submissionDate").value),
+  program: programSelect.value,
+  course: courseSelect.value,
+  instructorName: instructorSelect.value,
+  instructorEmail: instructorEmails[instructorSelect.value] || "",
+  instructorReview: document.getElementById("instructorReview").value,
+  courseReview: document.getElementById("courseReview").value,
+  createdAt: serverTimestamp()
+};
 
   try {
     await addDoc(collection(db, "anonymousResponses"), formData);

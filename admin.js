@@ -13,8 +13,11 @@ import {
 import {
   getFirestore,
   collection,
+  doc,
+  getDoc,
   getDocs,
   query,
+  where,
   orderBy
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
@@ -27,8 +30,6 @@ const firebaseConfig = {
   appId: "1:725559649427:web:f493f994ff6a1cd5e79966"
 };
 
-const ADMIN_EMAIL = "cgines@stech.edu";
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -38,13 +39,19 @@ const signInButton = document.getElementById("signInButton");
 const signOutButton = document.getElementById("signOutButton");
 const exportButton = document.getElementById("exportButton");
 const adminStatus = document.getElementById("adminStatus");
+const summarySection = document.getElementById("summarySection");
+const roleSummary = document.getElementById("roleSummary");
+const responseCount = document.getElementById("responseCount");
+
+let currentUserProfile = null;
+let currentRows = [];
 
 signInButton.addEventListener("click", async () => {
   try {
     await signInWithPopup(auth, provider);
   } catch (error) {
     console.error("Sign-in error:", error);
-    adminStatus.textContent = "Sign-in failed. Please try again.";
+    adminStatus.textContent = `Sign-in failed: ${error.code}`;
     adminStatus.style.color = "red";
   }
 });
@@ -53,77 +60,149 @@ signOutButton.addEventListener("click", async () => {
   await signOut(auth);
 });
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    signInButton.style.display = "block";
-    signOutButton.style.display = "none";
-    exportButton.style.display = "none";
-    adminStatus.textContent = "Not signed in.";
-    adminStatus.style.color = "#555";
+    resetDashboard();
     return;
   }
 
   signInButton.style.display = "none";
   signOutButton.style.display = "block";
 
-  if (user.email === ADMIN_EMAIL) {
-    exportButton.style.display = "block";
-    adminStatus.textContent = `Signed in as ${user.email}.`;
-    adminStatus.style.color = "green";
-  } else {
-    exportButton.style.display = "none";
-    adminStatus.textContent = `Access denied for ${user.email}.`;
-    adminStatus.style.color = "red";
-  }
-});
-
-exportButton.addEventListener("click", async () => {
-  adminStatus.textContent = "Preparing CSV...";
-  adminStatus.style.color = "#555";
-
   try {
-    const responsesQuery = query(
-      collection(db, "anonymousResponses"),
-      orderBy("createdAt", "desc")
-    );
+    const userProfile = await getUserProfile(user.email);
 
-    const snapshot = await getDocs(responsesQuery);
-
-    const rows = [];
-
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-
-      rows.push({
-        id: doc.id,
-        submissionDate: data.submissionDate || "",
-        program: data.program || "",
-        course: data.course || "",
-        instructorName: data.instructorName || "",
-        instructorEmail: data.instructorEmail || "",
-        instructorReview: data.instructorReview || "",
-        courseReview: data.courseReview || "",
-        createdAt: data.createdAt?.toDate
-          ? data.createdAt.toDate().toLocaleString()
-          : ""
-      });
-    });
-
-    if (rows.length === 0) {
-      adminStatus.textContent = "No responses found.";
+    if (!userProfile) {
+      exportButton.style.display = "none";
+      summarySection.style.display = "none";
+      adminStatus.textContent = `Access denied. No role found for ${user.email}.`;
+      adminStatus.style.color = "red";
       return;
     }
 
-    downloadCSV(rows, "fy27-survey-responses.csv");
+    currentUserProfile = userProfile;
 
-    adminStatus.textContent = `Downloaded ${rows.length} response(s).`;
+    adminStatus.textContent = `Signed in as ${user.email}.`;
     adminStatus.style.color = "green";
+
+    roleSummary.textContent = getRoleSummary(userProfile);
+    summarySection.style.display = "block";
+
+    await loadAllowedResponses(userProfile);
+
+    exportButton.style.display = currentRows.length > 0 ? "block" : "none";
+    responseCount.textContent = `${currentRows.length} response(s) available.`;
   } catch (error) {
-    console.error("Export error:", error);
-    adminStatus.textContent = "Export failed. Check your Firebase rules and sign-in email.";
+    console.error("Dashboard error:", error);
+    adminStatus.textContent = "Could not load dashboard. Check Firebase rules and user role setup.";
     adminStatus.style.color = "red";
   }
 });
+
+exportButton.addEventListener("click", () => {
+  if (!currentRows.length) {
+    adminStatus.textContent = "No responses available to export.";
+    adminStatus.style.color = "red";
+    return;
+  }
+
+  downloadCSV(currentRows, "fy27-survey-responses.csv");
+
+  adminStatus.textContent = `Downloaded ${currentRows.length} response(s).`;
+  adminStatus.style.color = "green";
+});
+
+async function getUserProfile(email) {
+  const userRef = doc(db, "users", email);
+  const userSnapshot = await getDoc(userRef);
+
+  if (!userSnapshot.exists()) {
+    return null;
+  }
+
+  return {
+    email,
+    ...userSnapshot.data()
+  };
+}
+
+async function loadAllowedResponses(userProfile) {
+  currentRows = [];
+
+  let responsesQuery;
+
+  if (userProfile.role === "admin") {
+    responsesQuery = query(
+      collection(db, "anonymousResponses"),
+      orderBy("createdAt", "desc")
+    );
+  } else if (userProfile.role === "director") {
+    responsesQuery = query(
+      collection(db, "anonymousResponses"),
+      where("program", "==", userProfile.program),
+      orderBy("createdAt", "desc")
+    );
+  } else if (userProfile.role === "instructor") {
+    responsesQuery = query(
+      collection(db, "anonymousResponses"),
+      where("instructorEmail", "==", userProfile.instructorEmail),
+      orderBy("createdAt", "desc")
+    );
+  } else {
+    throw new Error(`Unknown role: ${userProfile.role}`);
+  }
+
+  const snapshot = await getDocs(responsesQuery);
+
+  snapshot.forEach((docSnapshot) => {
+    const data = docSnapshot.data();
+
+    currentRows.push({
+      id: docSnapshot.id,
+      submissionDate: data.submissionDate || "",
+      program: data.program || "",
+      course: data.course || "",
+      instructorName: data.instructorName || "",
+      instructorEmail: data.instructorEmail || "",
+      instructorReview: data.instructorReview || "",
+      courseReview: data.courseReview || "",
+      createdAt: data.createdAt?.toDate
+        ? data.createdAt.toDate().toLocaleString()
+        : ""
+    });
+  });
+}
+
+function getRoleSummary(userProfile) {
+  if (userProfile.role === "admin") {
+    return "Role: Admin — can export all survey responses.";
+  }
+
+  if (userProfile.role === "director") {
+    return `Role: Director — can export responses for ${userProfile.program}.`;
+  }
+
+  if (userProfile.role === "instructor") {
+    return `Role: Instructor — can export responses for ${userProfile.instructorEmail}.`;
+  }
+
+  return "Role: Unknown.";
+}
+
+function resetDashboard() {
+  currentUserProfile = null;
+  currentRows = [];
+
+  signInButton.style.display = "block";
+  signOutButton.style.display = "none";
+  exportButton.style.display = "none";
+  summarySection.style.display = "none";
+
+  adminStatus.textContent = "Not signed in.";
+  adminStatus.style.color = "#555";
+  responseCount.textContent = "";
+  roleSummary.textContent = "";
+}
 
 function downloadCSV(rows, filename) {
   const headers = Object.keys(rows[0]);
