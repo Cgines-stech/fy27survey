@@ -56,6 +56,42 @@
         </select>
       </label>
 
+      <label>
+        Are you completing the program and want to leave feedback about institutional services?
+        <select id="leaveServiceFeedback" required>
+            <option value="">Select an option</option>
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+        </select>
+        </label>
+
+        <section id="serviceFeedbackSection" style="display: none;">
+        <h2>Institutional Services Feedback</h2>
+
+        <label>
+            Service
+            <select id="service">
+            <option value="">Select a service</option>
+            </select>
+        </label>
+
+        <label>
+            How was the service?
+            <select id="serviceReview">
+            <option value="">Select a rating</option>
+            <option value="Poor">Poor</option>
+            <option value="Good">Good</option>
+            <option value="Excellent">Excellent</option>
+            <option value="N/A">N/A</option>
+            </select>
+        </label>
+
+        <label>
+            Would you like to leave additional information?
+            <textarea id="serviceAdditionalInfo" rows="5"></textarea>
+        </label>
+        </section>
+
       <button type="submit" id="submitButton">Submit Review</button>
     </form>
 
@@ -69,6 +105,7 @@
 
     <script src="data.js"></script>
     <script src="instructor.js"></script>
+    <script src="services.js"></script>
     <script type="module" src="script.js"></script>
 </body>
 </html>

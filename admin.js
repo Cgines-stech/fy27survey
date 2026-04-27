@@ -44,7 +44,8 @@ const roleSummary = document.getElementById("roleSummary");
 const responseCount = document.getElementById("responseCount");
 
 let currentUserProfile = null;
-let currentRows = [];
+let currentCourseRows = [];
+let currentServiceRows = [];
 
 signInButton.addEventListener("click", async () => {
   try {
@@ -90,25 +91,29 @@ onAuthStateChanged(auth, async (user) => {
 
     await loadAllowedResponses(userProfile);
 
-    exportButton.style.display = currentRows.length > 0 ? "block" : "none";
-    responseCount.textContent = `${currentRows.length} response(s) available.`;
+    const totalRows = currentCourseRows.length + currentServiceRows.length;
+
+    exportButton.style.display = totalRows > 0 ? "block" : "none";
+    responseCount.textContent =
+      `${currentCourseRows.length} course response(s), ${currentServiceRows.length} service response(s) available.`;
   } catch (error) {
     console.error("Dashboard error:", error);
-    adminStatus.textContent = "Could not load dashboard. Check Firebase rules and user role setup.";
+    adminStatus.textContent = "Could not load dashboard. Check Firebase rules, indexes, and user role setup.";
     adminStatus.style.color = "red";
   }
 });
 
 exportButton.addEventListener("click", () => {
-  if (!currentRows.length) {
-    adminStatus.textContent = "No responses available to export.";
-    adminStatus.style.color = "red";
-    return;
+  if (currentCourseRows.length > 0) {
+    downloadCSV(currentCourseRows, "fy27-course-responses.csv");
   }
 
-  downloadCSV(currentRows, "fy27-survey-responses.csv");
+  if (currentServiceRows.length > 0) {
+    downloadCSV(currentServiceRows, "fy27-service-responses.csv");
+  }
 
-  adminStatus.textContent = `Downloaded ${currentRows.length} response(s).`;
+  adminStatus.textContent =
+    `Downloaded ${currentCourseRows.length} course response(s) and ${currentServiceRows.length} service response(s).`;
   adminStatus.style.color = "green";
 });
 
@@ -127,37 +132,63 @@ async function getUserProfile(email) {
 }
 
 async function loadAllowedResponses(userProfile) {
-  currentRows = [];
-
-  let responsesQuery;
+  currentCourseRows = [];
+  currentServiceRows = [];
 
   if (userProfile.role === "admin") {
-    responsesQuery = query(
-      collection(db, "anonymousResponses"),
-      orderBy("createdAt", "desc")
+    await loadCourseResponses(
+      query(collection(db, "anonymousResponses"), orderBy("createdAt", "desc"))
     );
-  } else if (userProfile.role === "director") {
-    responsesQuery = query(
-      collection(db, "anonymousResponses"),
-      where("program", "==", userProfile.program),
-      orderBy("createdAt", "desc")
+
+    await loadServiceResponses(
+      query(collection(db, "serviceResponses"), orderBy("createdAt", "desc"))
     );
-  } else if (userProfile.role === "instructor") {
-    responsesQuery = query(
-      collection(db, "anonymousResponses"),
-      where("instructorEmail", "==", userProfile.instructorEmail),
-      orderBy("createdAt", "desc")
-    );
-  } else {
-    throw new Error(`Unknown role: ${userProfile.role}`);
   }
 
+  if (userProfile.role === "director") {
+    await loadCourseResponses(
+      query(
+        collection(db, "anonymousResponses"),
+        where("program", "==", userProfile.program),
+        orderBy("createdAt", "desc")
+      )
+    );
+  }
+
+  if (userProfile.role === "instructor") {
+    await loadCourseResponses(
+      query(
+        collection(db, "anonymousResponses"),
+        where("instructorEmail", "==", userProfile.instructorEmail),
+        orderBy("createdAt", "desc")
+      )
+    );
+  }
+
+  if (userProfile.role === "serviceDirector") {
+    const allowedServices = Array.isArray(userProfile.services)
+      ? userProfile.services
+      : [];
+
+    for (const serviceName of allowedServices) {
+      await loadServiceResponses(
+        query(
+          collection(db, "serviceResponses"),
+          where("service", "==", serviceName),
+          orderBy("createdAt", "desc")
+        )
+      );
+    }
+  }
+}
+
+async function loadCourseResponses(responsesQuery) {
   const snapshot = await getDocs(responsesQuery);
 
   snapshot.forEach((docSnapshot) => {
     const data = docSnapshot.data();
 
-    currentRows.push({
+    currentCourseRows.push({
       id: docSnapshot.id,
       submissionDate: data.submissionDate || "",
       program: data.program || "",
@@ -173,17 +204,43 @@ async function loadAllowedResponses(userProfile) {
   });
 }
 
+async function loadServiceResponses(responsesQuery) {
+  const snapshot = await getDocs(responsesQuery);
+
+  snapshot.forEach((docSnapshot) => {
+    const data = docSnapshot.data();
+
+    currentServiceRows.push({
+      id: docSnapshot.id,
+      linkedCourseResponseId: data.linkedCourseResponseId || "",
+      submissionDate: data.submissionDate || "",
+      program: data.program || "",
+      course: data.course || "",
+      service: data.service || "",
+      serviceReview: data.serviceReview || "",
+      additionalInfo: data.additionalInfo || "",
+      createdAt: data.createdAt?.toDate
+        ? data.createdAt.toDate().toLocaleString()
+        : ""
+    });
+  });
+}
+
 function getRoleSummary(userProfile) {
   if (userProfile.role === "admin") {
-    return "Role: Admin — can export all survey responses.";
+    return "Role: Admin — can export all course and service responses.";
   }
 
   if (userProfile.role === "director") {
-    return `Role: Director — can export responses for ${userProfile.program}.`;
+    return `Role: Director — can export course responses for ${userProfile.program}.`;
   }
 
   if (userProfile.role === "instructor") {
-    return `Role: Instructor — can export responses for ${userProfile.instructorEmail}.`;
+    return `Role: Instructor — can export course responses for ${userProfile.instructorEmail}.`;
+  }
+
+  if (userProfile.role === "serviceDirector") {
+    return `Role: Service Director — can export service responses for ${(userProfile.services || []).join(", ")}.`;
   }
 
   return "Role: Unknown.";
@@ -191,7 +248,8 @@ function getRoleSummary(userProfile) {
 
 function resetDashboard() {
   currentUserProfile = null;
-  currentRows = [];
+  currentCourseRows = [];
+  currentServiceRows = [];
 
   signInButton.style.display = "block";
   signOutButton.style.display = "none";

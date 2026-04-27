@@ -23,15 +23,21 @@ const db = getFirestore(app);
 
 const form = document.getElementById("reviewForm");
 const statusMessage = document.getElementById("statusMessage");
+const confirmationMessage = document.getElementById("confirmationMessage");
 const submitButton = document.getElementById("submitButton");
 
 const programSelect = document.getElementById("program");
 const courseSelect = document.getElementById("course");
 const instructorSelect = document.getElementById("instructorName");
 
-const confirmationMessage = document.getElementById("confirmationMessage");
+const leaveServiceFeedbackSelect = document.getElementById("leaveServiceFeedback");
+const serviceFeedbackSection = document.getElementById("serviceFeedbackSection");
+const serviceSelect = document.getElementById("service");
+const serviceReviewSelect = document.getElementById("serviceReview");
+const serviceAdditionalInfo = document.getElementById("serviceAdditionalInfo");
 
 populateDropdown(programSelect, Object.keys(data));
+populateDropdown(serviceSelect, services);
 
 programSelect.addEventListener("change", function () {
   const selectedProgram = programSelect.value;
@@ -40,8 +46,6 @@ programSelect.addEventListener("change", function () {
   resetDropdown(instructorSelect, "Select a course first");
 
   if (!selectedProgram || !data[selectedProgram]) {
-    courseSelect.disabled = true;
-    instructorSelect.disabled = true;
     return;
   }
 
@@ -60,12 +64,26 @@ courseSelect.addEventListener("change", function () {
     !selectedCourse ||
     !data[selectedProgram][selectedCourse]
   ) {
-    instructorSelect.disabled = true;
     return;
   }
 
   instructorSelect.disabled = false;
   populateDropdown(instructorSelect, data[selectedProgram][selectedCourse]);
+});
+
+leaveServiceFeedbackSelect.addEventListener("change", function () {
+  const wantsServiceFeedback = leaveServiceFeedbackSelect.value === "Yes";
+
+  serviceFeedbackSection.style.display = wantsServiceFeedback ? "block" : "none";
+
+  serviceSelect.required = wantsServiceFeedback;
+  serviceReviewSelect.required = wantsServiceFeedback;
+
+  if (!wantsServiceFeedback) {
+    serviceSelect.value = "";
+    serviceReviewSelect.value = "";
+    serviceAdditionalInfo.value = "";
+  }
 });
 
 form.addEventListener("submit", async function (event) {
@@ -75,32 +93,49 @@ form.addEventListener("submit", async function (event) {
   submitButton.disabled = true;
   submitButton.textContent = "Submitting...";
 
-const formData = {
-  submissionDate: new Date().toLocaleDateString("en-US"),
-  program: programSelect.value,
-  course: courseSelect.value,
-  instructorName: instructorSelect.value,
-  instructorEmail: instructorEmails[instructorSelect.value] || "",
-  instructorReview: document.getElementById("instructorReview").value,
-  courseReview: document.getElementById("courseReview").value,
-  createdAt: serverTimestamp()
-};
+  const courseResponse = {
+    submissionDate: new Date().toLocaleDateString("en-US"),
+    program: programSelect.value,
+    course: courseSelect.value,
+    instructorName: instructorSelect.value,
+    instructorEmail: instructorEmails[instructorSelect.value] || "",
+    instructorReview: document.getElementById("instructorReview").value,
+    courseReview: document.getElementById("courseReview").value,
+    createdAt: serverTimestamp()
+  };
 
-try {
-  await addDoc(collection(db, "anonymousResponses"), formData);
+  try {
+    const courseDocRef = await addDoc(
+      collection(db, "anonymousResponses"),
+      courseResponse
+    );
 
-  statusMessage.textContent = "";
-  form.style.display = "none";
-  confirmationMessage.style.display = "block";
-} catch (error) {
-  console.error("Error submitting form:", error);
+    if (leaveServiceFeedbackSelect.value === "Yes") {
+      const serviceResponse = {
+        linkedCourseResponseId: courseDocRef.id,
+        submissionDate: new Date().toLocaleDateString("en-US"),
+        program: programSelect.value,
+        course: courseSelect.value,
+        service: serviceSelect.value,
+        serviceReview: serviceReviewSelect.value,
+        additionalInfo: serviceAdditionalInfo.value.trim(),
+        createdAt: serverTimestamp()
+      };
 
-  statusMessage.textContent = "There was an error submitting the form. Please try again.";
-  statusMessage.style.color = "red";
-} finally {
-  submitButton.disabled = false;
-  submitButton.textContent = "Submit Review";
-}
+      await addDoc(collection(db, "serviceResponses"), serviceResponse);
+    }
+
+    form.style.display = "none";
+    confirmationMessage.style.display = "block";
+  } catch (error) {
+    console.error("Error submitting form:", error);
+
+    statusMessage.textContent = "There was an error submitting the form. Please try again.";
+    statusMessage.style.color = "red";
+
+    submitButton.disabled = false;
+    submitButton.textContent = "Submit Review";
+  }
 });
 
 function populateDropdown(selectElement, options) {
@@ -115,11 +150,4 @@ function populateDropdown(selectElement, options) {
 function resetDropdown(selectElement, placeholderText) {
   selectElement.innerHTML = `<option value="">${placeholderText}</option>`;
   selectElement.disabled = true;
-}
-
-function formatDate(dateValue) {
-  if (!dateValue) return "";
-
-  const [year, month, day] = dateValue.split("-");
-  return `${month}/${day}/${year}`;
 }
