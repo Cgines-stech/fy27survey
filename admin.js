@@ -1,13 +1,27 @@
 
 // admin.js
 
+// admin.js
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
+
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 
 import {
   getFirestore,
   collection,
-  addDoc,
-  serverTimestamp
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  orderBy
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -20,552 +34,429 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
 
-const ratingOptions = ["Excellent", "Good", "Fair", "Poor", "Not Applicable"];
+const signInButton = document.getElementById("signInButton");
+const signOutButton = document.getElementById("signOutButton");
+const exportButton = document.getElementById("exportButton");
+const adminStatus = document.getElementById("adminStatus");
+const summarySection = document.getElementById("summarySection");
+const roleSummary = document.getElementById("roleSummary");
+const responseCount = document.getElementById("responseCount");
 
-const courseQuestions = [
-  "The course content was clearly organized.",
-  "The course helped me build useful skills.",
-  "Assignments supported the course objectives.",
-  "Course materials were helpful.",
-  "Overall, I was satisfied with this course."
-];
+let currentUserProfile = null;
 
-const instructorQuestions = [
-  "The instructor communicated clearly.",
-  "The instructor was prepared and organized.",
-  "The instructor provided helpful feedback.",
-  "Overall, I was satisfied with this instructor."
-];
+let currentCourseRows = [];
+let currentInstructorRows = [];
+let currentProgramRows = [];
+let currentServiceRows = [];
+let currentAdditionalFeedbackRows = [];
 
-const programQuestions = [
-  "The program prepared me for my career goals.",
-  "The program content was relevant and useful.",
-  "The program was well organized.",
-  "The program met my expectations.",
-  "Overall, I was satisfied with the program."
-];
+signInButton.addEventListener("click", async () => {
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (error) {
+    console.error("Sign-in error:", error);
+    adminStatus.textContent = `Sign-in failed: ${error.code}`;
+    adminStatus.style.color = "red";
+  }
+});
 
-const serviceQuestionsByService = {
-  "Student Services": [
-    "Student Services staff were helpful.",
-    "Student Services communicated clearly.",
-    "Student Services responded in a timely manner.",
-    "Student Services helped me resolve my need.",
-    "Overall, I was satisfied with Student Services."
-  ],
-  "Financial Aid Services": [
-    "Financial Aid information was easy to understand.",
-    "Financial Aid staff were helpful.",
-    "Financial Aid services were timely.",
-    "Financial Aid helped me understand my options.",
-    "Overall, I was satisfied with Financial Aid Services."
-  ],
-  "Services for Students with Disabilities": [
-    "Disability services were accessible.",
-    "Staff communicated accommodations clearly.",
-    "My needs were handled respectfully.",
-    "Support was provided in a timely manner.",
-    "Overall, I was satisfied with disability services."
-  ],
-  "Technology and Campus IT": [
-    "Technology systems were reliable.",
-    "IT support was helpful.",
-    "Technology issues were resolved in a timely manner.",
-    "Online tools were easy to access.",
-    "Overall, I was satisfied with Technology and Campus IT."
-  ],
-  "Facilities and Safety": [
-    "Campus facilities were clean.",
-    "Campus facilities were accessible.",
-    "I felt safe on campus.",
-    "Safety concerns were addressed appropriately.",
-    "Overall, I was satisfied with Facilities and Safety."
-  ],
-  "Veteran Services": [
-    "Veteran Services staff were helpful.",
-    "Veteran benefits information was clear.",
-    "Veteran Services responded in a timely manner.",
-    "Veteran Services supported my needs.",
-    "Overall, I was satisfied with Veteran Services."
-  ]
-};
+signOutButton.addEventListener("click", async () => {
+  await signOut(auth);
+});
 
-const form = document.getElementById("reviewForm");
-const statusMessage = document.getElementById("statusMessage");
-const confirmationMessage = document.getElementById("confirmationMessage");
-const submitButton = document.getElementById("submitButton");
-const nextButton = document.getElementById("nextButton");
-const backButton = document.getElementById("backButton");
-
-const programSelect = document.getElementById("program");
-const courseSelect = document.getElementById("course");
-const isLastCourseSelect = document.getElementById("isLastCourse");
-const serviceSelect = document.getElementById("service");
-
-const courseMatrix = document.getElementById("courseMatrix");
-const programMatrix = document.getElementById("programMatrix");
-const serviceMatrix = document.getElementById("serviceMatrix");
-const serviceFeedbackTitle = document.getElementById("serviceFeedbackTitle");
-
-const instructorFeedbackContainer = document.getElementById("instructorFeedbackContainer");
-const addInstructorButton = document.getElementById("addInstructorButton");
-
-const steps = Array.from(document.querySelectorAll(".form-step"));
-let currentStepIndex = 0;
-let instructorBlockCount = 0;
-
-populateDropdown(programSelect, Object.keys(data));
-populateDropdown(serviceSelect, services);
-
-renderMatrix(courseMatrix, "course", courseQuestions);
-renderMatrix(programMatrix, "program", programQuestions);
-addInstructorFeedbackBlock();
-
-programSelect.addEventListener("change", () => {
-  const selectedProgram = programSelect.value;
-
-  resetDropdown(courseSelect, "Select a course");
-  clearInstructorFeedbackBlocks();
-
-  if (!selectedProgram || !data[selectedProgram]) {
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    resetDashboard();
     return;
   }
 
-  courseSelect.disabled = false;
-  populateDropdown(courseSelect, Object.keys(data[selectedProgram]));
-});
-
-courseSelect.addEventListener("change", () => {
-  clearInstructorFeedbackBlocks();
-  addInstructorFeedbackBlock();
-});
-
-serviceSelect.addEventListener("change", () => {
-  const selectedService = serviceSelect.value;
-
-  if (
-    selectedService &&
-    selectedService !== "Complete the survey without leaving additional feedback"
-  ) {
-    serviceFeedbackTitle.textContent = `${selectedService} Feedback`;
-    renderMatrix(
-      serviceMatrix,
-      "service",
-      serviceQuestionsByService[selectedService] || []
-    );
-  }
-});
-
-addInstructorButton.addEventListener("click", () => {
-  addInstructorFeedbackBlock();
-});
-
-nextButton.addEventListener("click", () => {
-  if (!validateCurrentStep()) {
-    return;
-  }
-
-  goToNextStep();
-});
-
-backButton.addEventListener("click", () => {
-  goToPreviousStep();
-});
-
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  if (!validateCurrentStep()) {
-    return;
-  }
-
-  statusMessage.textContent = "";
-  submitButton.disabled = true;
-  submitButton.textContent = "Submitting...";
-
-  const submissionGroupId = crypto.randomUUID();
-  const baseData = {
-    submissionGroupId,
-    submissionDate: new Date().toLocaleDateString("en-US"),
-    program: programSelect.value,
-    course: courseSelect.value,
-    isLastCourse: isLastCourseSelect.value,
-    createdAt: serverTimestamp()
-  };
+  signInButton.style.display = "none";
+  signOutButton.style.display = "block";
 
   try {
-    const courseDocRef = await addDoc(collection(db, "courseResponses"), {
-      ...baseData,
-      courseRatings: getMatrixResponses("course")
-    });
+    const userProfile = await getUserProfile(user.email);
 
-    const instructorResponses = getInstructorResponses();
-
-    for (const instructorResponse of instructorResponses) {
-      await addDoc(collection(db, "instructorResponses"), {
-        ...baseData,
-        linkedCourseResponseId: courseDocRef.id,
-        instructorName: instructorResponse.instructorName,
-        instructorEmail: instructorEmails[instructorResponse.instructorName] || "",
-        instructorRatings: instructorResponse.ratings,
-        instructorAdditionalFeedback: instructorResponse.additionalFeedback,
-        createdAt: serverTimestamp()
-      });
+    if (!userProfile) {
+      exportButton.style.display = "none";
+      summarySection.style.display = "none";
+      adminStatus.textContent = `Access denied. No role found for ${user.email}.`;
+      adminStatus.style.color = "red";
+      return;
     }
 
-    if (isLastCourseSelect.value === "Yes") {
-      await addDoc(collection(db, "programCompletionResponses"), {
-        ...baseData,
-        linkedCourseResponseId: courseDocRef.id,
-        programRatings: getMatrixResponses("program"),
-        programPositiveFeedback: document.getElementById("programPositiveFeedback").value.trim(),
-        programImprovementFeedback: document.getElementById("programImprovementFeedback").value.trim(),
-        createdAt: serverTimestamp()
-      });
+    currentUserProfile = userProfile;
 
-      if (
-        serviceSelect.value &&
-        serviceSelect.value !== "Complete the survey without leaving additional feedback"
-      ) {
-        await addDoc(collection(db, "serviceResponses"), {
-          ...baseData,
-          linkedCourseResponseId: courseDocRef.id,
-          service: serviceSelect.value,
-          serviceRatings: getMatrixResponses("service"),
-          servicePositiveFeedback: document.getElementById("servicePositiveFeedback").value.trim(),
-          serviceImprovementFeedback: document.getElementById("serviceImprovementFeedback").value.trim(),
-          createdAt: serverTimestamp()
-        });
-      }
-    }
+    adminStatus.textContent = `Signed in as ${user.email}.`;
+    adminStatus.style.color = "green";
 
-    await addDoc(collection(db, "additionalFeedbackResponses"), {
-      ...baseData,
-      linkedCourseResponseId: courseDocRef.id,
-      additionalFeedback: document.getElementById("additionalFeedback").value.trim(),
-      createdAt: serverTimestamp()
-    });
+    roleSummary.textContent = getRoleSummary(userProfile);
+    summarySection.style.display = "block";
 
-    form.style.display = "none";
-    confirmationMessage.style.display = "block";
+    await loadAllowedResponses(userProfile);
+
+    const totalRows =
+      currentCourseRows.length +
+      currentInstructorRows.length +
+      currentProgramRows.length +
+      currentServiceRows.length +
+      currentAdditionalFeedbackRows.length;
+
+    exportButton.style.display = totalRows > 0 ? "block" : "none";
+
+    responseCount.textContent =
+      `${currentCourseRows.length} course response(s), ` +
+      `${currentInstructorRows.length} instructor response(s), ` +
+      `${currentProgramRows.length} program completion response(s), ` +
+      `${currentServiceRows.length} service response(s), ` +
+      `${currentAdditionalFeedbackRows.length} additional feedback response(s) available.`;
   } catch (error) {
-    console.error("Error submitting form:", error);
-
-    statusMessage.textContent = "There was an error submitting the form. Please try again.";
-    statusMessage.style.color = "red";
-
-    submitButton.disabled = false;
-    submitButton.textContent = "Submit Survey";
+    console.error("Dashboard error:", error);
+    adminStatus.textContent =
+      "Could not load dashboard. Check Firebase rules, indexes, and user role setup.";
+    adminStatus.style.color = "red";
   }
 });
 
-function goToNextStep() {
-  const currentStep = steps[currentStepIndex];
-
-  if (currentStep.id === "programFeedbackStep") {
-    showStepById("serviceChoiceStep");
-    return;
+exportButton.addEventListener("click", () => {
+  if (currentCourseRows.length > 0) {
+    downloadCSV(currentCourseRows, "fy27-course-responses.csv");
   }
 
-  if (currentStep.id === "serviceChoiceStep") {
-    if (serviceSelect.value === "Complete the survey without leaving additional feedback") {
-      showStepById("additionalFeedbackStep");
-    } else {
-      showStepById("serviceFeedbackStep");
-    }
-    return;
+  if (currentInstructorRows.length > 0) {
+    downloadCSV(currentInstructorRows, "fy27-instructor-responses.csv");
   }
 
-  if (currentStep.id === "serviceFeedbackStep") {
-    showStepById("additionalFeedbackStep");
-    return;
+  if (currentProgramRows.length > 0) {
+    downloadCSV(currentProgramRows, "fy27-program-completion-responses.csv");
   }
 
-  if (isLastCourseSelect.value === "No" && currentStep.contains(isLastCourseSelect)) {
-    showStepById("additionalFeedbackStep");
-    return;
+  if (currentServiceRows.length > 0) {
+    downloadCSV(currentServiceRows, "fy27-service-responses.csv");
   }
 
-  if (isLastCourseSelect.value === "Yes" && currentStep.contains(isLastCourseSelect)) {
-    showStepById("programFeedbackStep");
-    return;
+  if (currentAdditionalFeedbackRows.length > 0) {
+    downloadCSV(currentAdditionalFeedbackRows, "fy27-additional-feedback-responses.csv");
   }
 
-  currentStepIndex++;
-  updateStepVisibility();
+  adminStatus.textContent = "CSV download complete.";
+  adminStatus.style.color = "green";
+});
+
+async function getUserProfile(email) {
+  const userRef = doc(db, "users", email);
+  const userSnapshot = await getDoc(userRef);
+
+  if (!userSnapshot.exists()) {
+    return null;
+  }
+
+  return {
+    email,
+    ...userSnapshot.data()
+  };
 }
 
-function goToPreviousStep() {
-  const currentStep = steps[currentStepIndex];
+async function loadAllowedResponses(userProfile) {
+  currentCourseRows = [];
+  currentInstructorRows = [];
+  currentProgramRows = [];
+  currentServiceRows = [];
+  currentAdditionalFeedbackRows = [];
 
-  if (currentStep.id === "additionalFeedbackStep") {
-    if (isLastCourseSelect.value === "No") {
-      showStepContainingElement(isLastCourseSelect);
-    } else if (
-      serviceSelect.value &&
-      serviceSelect.value !== "Complete the survey without leaving additional feedback"
-    ) {
-      showStepById("serviceFeedbackStep");
-    } else {
-      showStepById("serviceChoiceStep");
-    }
-    return;
+  if (userProfile.role === "admin") {
+    await loadCourseResponses(
+      query(collection(db, "courseResponses"), orderBy("createdAt", "desc"))
+    );
+
+    await loadInstructorResponses(
+      query(collection(db, "instructorResponses"), orderBy("createdAt", "desc"))
+    );
+
+    await loadProgramResponses(
+      query(collection(db, "programCompletionResponses"), orderBy("createdAt", "desc"))
+    );
+
+    await loadServiceResponses(
+      query(collection(db, "serviceResponses"), orderBy("createdAt", "desc"))
+    );
+
+    await loadAdditionalFeedbackResponses(
+      query(collection(db, "additionalFeedbackResponses"), orderBy("createdAt", "desc"))
+    );
   }
 
-  if (currentStep.id === "serviceFeedbackStep") {
-    showStepById("serviceChoiceStep");
-    return;
+  if (userProfile.role === "director") {
+    await loadCourseResponses(
+      query(
+        collection(db, "courseResponses"),
+        where("program", "==", userProfile.program),
+        orderBy("createdAt", "desc")
+      )
+    );
+
+    await loadInstructorResponses(
+      query(
+        collection(db, "instructorResponses"),
+        where("program", "==", userProfile.program),
+        orderBy("createdAt", "desc")
+      )
+    );
+
+    await loadProgramResponses(
+      query(
+        collection(db, "programCompletionResponses"),
+        where("program", "==", userProfile.program),
+        orderBy("createdAt", "desc")
+      )
+    );
+
+    await loadAdditionalFeedbackResponses(
+      query(
+        collection(db, "additionalFeedbackResponses"),
+        where("program", "==", userProfile.program),
+        orderBy("createdAt", "desc")
+      )
+    );
   }
 
-  if (currentStep.id === "serviceChoiceStep") {
-    showStepById("programFeedbackStep");
-    return;
+  if (userProfile.role === "instructor") {
+    await loadInstructorResponses(
+      query(
+        collection(db, "instructorResponses"),
+        where("instructorEmail", "==", userProfile.instructorEmail),
+        orderBy("createdAt", "desc")
+      )
+    );
   }
 
-  if (currentStep.id === "programFeedbackStep") {
-    showStepContainingElement(isLastCourseSelect);
-    return;
-  }
-
-  currentStepIndex--;
-  updateStepVisibility();
-}
-
-function showStepById(stepId) {
-  const stepIndex = steps.findIndex((step) => step.id === stepId);
-  if (stepIndex >= 0) {
-    currentStepIndex = stepIndex;
-    updateStepVisibility();
-  }
-}
-
-function showStepContainingElement(element) {
-  const stepIndex = steps.findIndex((step) => step.contains(element));
-  if (stepIndex >= 0) {
-    currentStepIndex = stepIndex;
-    updateStepVisibility();
-  }
-}
-
-function updateStepVisibility() {
-  steps.forEach((step, index) => {
-    step.classList.toggle("active", index === currentStepIndex);
-  });
-
-  backButton.style.display = currentStepIndex === 0 ? "none" : "block";
-
-  const currentStep = steps[currentStepIndex];
-  const isSubmitStep = currentStep.id === "additionalFeedbackStep";
-
-  nextButton.style.display = isSubmitStep ? "none" : "block";
-  submitButton.style.display = isSubmitStep ? "block" : "none";
-
-  statusMessage.textContent = "";
-}
-
-function validateCurrentStep() {
-  const currentStep = steps[currentStepIndex];
-  const requiredFields = Array.from(currentStep.querySelectorAll("[required]"));
-
-  for (const field of requiredFields) {
-    if (!field.value) {
-      field.reportValidity();
-      return false;
-    }
-  }
-
-  if (currentStep.querySelector("#courseMatrix") && !matrixComplete("course", courseQuestions)) {
-    showValidationMessage("Please answer all course feedback questions.");
-    return false;
-  }
-
-  if (currentStep.querySelector("#instructorFeedbackContainer") && !instructorFeedbackComplete()) {
-    showValidationMessage("Please complete all instructor feedback questions.");
-    return false;
-  }
-
-  if (currentStep.id === "programFeedbackStep" && !matrixComplete("program", programQuestions)) {
-    showValidationMessage("Please answer all program feedback questions.");
-    return false;
-  }
-
-  if (currentStep.id === "serviceFeedbackStep") {
-    const questions = serviceQuestionsByService[serviceSelect.value] || [];
-    if (!matrixComplete("service", questions)) {
-      showValidationMessage("Please answer all service feedback questions.");
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function showValidationMessage(message) {
-  statusMessage.textContent = message;
-  statusMessage.style.color = "red";
-}
-
-function renderMatrix(container, groupName, questions) {
-  container.innerHTML = "";
-
-  const wrapper = document.createElement("div");
-  wrapper.className = "matrix-table-wrapper";
-
-  const table = document.createElement("table");
-  table.className = "matrix-table";
-
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th>Question</th>
-        ${ratingOptions.map((option) => `<th>${option}</th>`).join("")}
-      </tr>
-    </thead>
-    <tbody>
-      ${questions.map((question, questionIndex) => `
-        <tr>
-          <td>${question}</td>
-          ${ratingOptions.map((option) => `
-            <td>
-              <input 
-                type="radio" 
-                name="${groupName}_question_${questionIndex}" 
-                value="${option}" 
-                aria-label="${question}: ${option}"
-              />
-            </td>
-          `).join("")}
-        </tr>
-      `).join("")}
-    </tbody>
-  `;
-
-  wrapper.appendChild(table);
-  container.appendChild(wrapper);
-}
-
-function matrixComplete(groupName, questions) {
-  return questions.every((_, questionIndex) => {
-    return document.querySelector(`input[name="${groupName}_question_${questionIndex}"]:checked`);
-  });
-}
-
-function getMatrixResponses(groupName) {
-  const responses = {};
-
-  document
-    .querySelectorAll(`input[name^="${groupName}_question_"]:checked`)
-    .forEach((input) => {
-      responses[input.name] = input.value;
-    });
-
-  return responses;
-}
-
-function addInstructorFeedbackBlock() {
-  instructorBlockCount++;
-
-  const blockId = `instructor_${instructorBlockCount}`;
-  const selectedProgram = programSelect.value;
-  const selectedCourse = courseSelect.value;
-  const instructorOptions =
-    selectedProgram && selectedCourse && data[selectedProgram]?.[selectedCourse]
-      ? data[selectedProgram][selectedCourse]
+  if (userProfile.role === "serviceDirector") {
+    const allowedServices = Array.isArray(userProfile.services)
+      ? userProfile.services
       : [];
 
-  const card = document.createElement("div");
-  card.className = "instructor-feedback-card";
-  card.dataset.instructorBlockId = blockId;
-
-  card.innerHTML = `
-    <label>
-      Instructor's Name
-      <select class="instructor-select" required>
-        <option value="">Select an instructor</option>
-        ${instructorOptions.map((name) => `<option value="${name}">${name}</option>`).join("")}
-      </select>
-    </label>
-
-    <div class="instructor-matrix" id="${blockId}_matrix"></div>
-
-    <label>
-      Additional instructor feedback
-      <textarea class="instructor-additional-feedback" rows="4"></textarea>
-    </label>
-
-    ${
-      instructorBlockCount > 1
-        ? `<button type="button" class="remove-instructor-button">Remove This Instructor</button>`
-        : ""
+    for (const serviceName of allowedServices) {
+      await loadServiceResponses(
+        query(
+          collection(db, "serviceResponses"),
+          where("service", "==", serviceName),
+          orderBy("createdAt", "desc")
+        )
+      );
     }
-  `;
-
-  instructorFeedbackContainer.appendChild(card);
-  renderMatrix(card.querySelector(".instructor-matrix"), blockId, instructorQuestions);
-
-  const removeButton = card.querySelector(".remove-instructor-button");
-  if (removeButton) {
-    removeButton.addEventListener("click", () => {
-      card.remove();
-    });
   }
 }
 
-function clearInstructorFeedbackBlocks() {
-  instructorFeedbackContainer.innerHTML = "";
-  instructorBlockCount = 0;
-}
+async function loadCourseResponses(responsesQuery) {
+  const snapshot = await getDocs(responsesQuery);
 
-function instructorFeedbackComplete() {
-  const cards = Array.from(document.querySelectorAll(".instructor-feedback-card"));
+  snapshot.forEach((docSnapshot) => {
+    const data = docSnapshot.data();
 
-  return cards.every((card) => {
-    const blockId = card.dataset.instructorBlockId;
-    const instructorSelect = card.querySelector(".instructor-select");
-
-    if (!instructorSelect.value) {
-      return false;
-    }
-
-    return instructorQuestions.every((_, questionIndex) => {
-      return card.querySelector(`input[name="${blockId}_question_${questionIndex}"]:checked`);
+    currentCourseRows.push({
+      id: docSnapshot.id,
+      submissionGroupId: data.submissionGroupId || "",
+      submissionDate: data.submissionDate || "",
+      program: data.program || "",
+      course: data.course || "",
+      isLastCourse: data.isLastCourse || "",
+      ...flattenObject(data.courseRatings || {}, "courseRating"),
+      createdAt: formatTimestamp(data.createdAt)
     });
   });
 }
 
-function getInstructorResponses() {
-  const cards = Array.from(document.querySelectorAll(".instructor-feedback-card"));
+async function loadInstructorResponses(responsesQuery) {
+  const snapshot = await getDocs(responsesQuery);
 
-  return cards.map((card) => {
-    const blockId = card.dataset.instructorBlockId;
-    const ratings = {};
+  snapshot.forEach((docSnapshot) => {
+    const data = docSnapshot.data();
 
-    card.querySelectorAll(`input[name^="${blockId}_question_"]:checked`).forEach((input) => {
-      ratings[input.name.replace(`${blockId}_`, "")] = input.value;
+    currentInstructorRows.push({
+      id: docSnapshot.id,
+      submissionGroupId: data.submissionGroupId || "",
+      linkedCourseResponseId: data.linkedCourseResponseId || "",
+      submissionDate: data.submissionDate || "",
+      program: data.program || "",
+      course: data.course || "",
+      isLastCourse: data.isLastCourse || "",
+      instructorName: data.instructorName || "",
+      instructorEmail: data.instructorEmail || "",
+      ...flattenObject(data.instructorRatings || {}, "instructorRating"),
+      instructorAdditionalFeedback: data.instructorAdditionalFeedback || "",
+      createdAt: formatTimestamp(data.createdAt)
     });
-
-    return {
-      instructorName: card.querySelector(".instructor-select").value,
-      ratings,
-      additionalFeedback: card.querySelector(".instructor-additional-feedback").value.trim()
-    };
   });
 }
 
-function populateDropdown(selectElement, options) {
-  options.forEach((optionText) => {
-    const option = document.createElement("option");
-    option.value = optionText;
-    option.textContent = optionText;
-    selectElement.appendChild(option);
+async function loadProgramResponses(responsesQuery) {
+  const snapshot = await getDocs(responsesQuery);
+
+  snapshot.forEach((docSnapshot) => {
+    const data = docSnapshot.data();
+
+    currentProgramRows.push({
+      id: docSnapshot.id,
+      submissionGroupId: data.submissionGroupId || "",
+      linkedCourseResponseId: data.linkedCourseResponseId || "",
+      submissionDate: data.submissionDate || "",
+      program: data.program || "",
+      course: data.course || "",
+      ...flattenObject(data.programRatings || {}, "programRating"),
+      programPositiveFeedback: data.programPositiveFeedback || "",
+      programImprovementFeedback: data.programImprovementFeedback || "",
+      createdAt: formatTimestamp(data.createdAt)
+    });
   });
 }
 
-function resetDropdown(selectElement, placeholderText) {
-  selectElement.innerHTML = `<option value="">${placeholderText}</option>`;
-  selectElement.disabled = true;
+async function loadServiceResponses(responsesQuery) {
+  const snapshot = await getDocs(responsesQuery);
+
+  snapshot.forEach((docSnapshot) => {
+    const data = docSnapshot.data();
+
+    currentServiceRows.push({
+      id: docSnapshot.id,
+      submissionGroupId: data.submissionGroupId || "",
+      linkedCourseResponseId: data.linkedCourseResponseId || "",
+      submissionDate: data.submissionDate || "",
+      program: data.program || "",
+      course: data.course || "",
+      service: data.service || "",
+      ...flattenObject(data.serviceRatings || {}, "serviceRating"),
+      servicePositiveFeedback: data.servicePositiveFeedback || "",
+      serviceImprovementFeedback: data.serviceImprovementFeedback || "",
+      createdAt: formatTimestamp(data.createdAt)
+    });
+  });
 }
 
-updateStepVisibility();
+async function loadAdditionalFeedbackResponses(responsesQuery) {
+  const snapshot = await getDocs(responsesQuery);
+
+  snapshot.forEach((docSnapshot) => {
+    const data = docSnapshot.data();
+
+    currentAdditionalFeedbackRows.push({
+      id: docSnapshot.id,
+      submissionGroupId: data.submissionGroupId || "",
+      linkedCourseResponseId: data.linkedCourseResponseId || "",
+      submissionDate: data.submissionDate || "",
+      program: data.program || "",
+      course: data.course || "",
+      isLastCourse: data.isLastCourse || "",
+      additionalFeedback: data.additionalFeedback || "",
+      createdAt: formatTimestamp(data.createdAt)
+    });
+  });
+}
+
+function getRoleSummary(userProfile) {
+  if (userProfile.role === "admin") {
+    return "Role: Admin — can export all course, instructor, program, service, and additional feedback responses.";
+  }
+
+  if (userProfile.role === "director") {
+    return `Role: Director — can export course, instructor, program, and additional feedback responses for ${userProfile.program}.`;
+  }
+
+  if (userProfile.role === "instructor") {
+    return `Role: Instructor — can export only instructor feedback assigned to ${userProfile.instructorEmail}.`;
+  }
+
+  if (userProfile.role === "serviceDirector") {
+    return `Role: Service Director — can export service responses for ${(userProfile.services || []).join(", ")}.`;
+  }
+
+  return "Role: Unknown.";
+}
+
+function resetDashboard() {
+  currentUserProfile = null;
+
+  currentCourseRows = [];
+  currentInstructorRows = [];
+  currentProgramRows = [];
+  currentServiceRows = [];
+  currentAdditionalFeedbackRows = [];
+
+  signInButton.style.display = "block";
+  signOutButton.style.display = "none";
+  exportButton.style.display = "none";
+  summarySection.style.display = "none";
+
+  adminStatus.textContent = "Not signed in.";
+  adminStatus.style.color = "#555";
+  responseCount.textContent = "";
+  roleSummary.textContent = "";
+}
+
+function flattenObject(objectValue, prefix) {
+  const flattened = {};
+
+  Object.entries(objectValue).forEach(([key, value]) => {
+    flattened[`${prefix}_${key}`] = value;
+  });
+
+  return flattened;
+}
+
+function formatTimestamp(timestamp) {
+  return timestamp?.toDate ? timestamp.toDate().toLocaleString() : "";
+}
+
+function downloadCSV(rows, filename) {
+  const headers = getAllHeaders(rows);
+
+  const csvRows = [
+    headers.join(","),
+    ...rows.map((row) =>
+      headers
+        .map((header) => escapeCSV(row[header]))
+        .join(",")
+    )
+  ];
+
+  const csvContent = csvRows.join("\n");
+
+  const blob = new Blob([csvContent], {
+    type: "text/csv;charset=utf-8;"
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function getAllHeaders(rows) {
+  const headers = new Set();
+
+  rows.forEach((row) => {
+    Object.keys(row).forEach((key) => headers.add(key));
+  });
+
+  return Array.from(headers);
+}
+
+function escapeCSV(value) {
+  const stringValue = String(value ?? "");
+
+  if (
+    stringValue.includes(",") ||
+    stringValue.includes('"') ||
+    stringValue.includes("\n")
+  ) {
+    return `"${stringValue.replace(/"/g, '""')}"`;
+  }
+
+  return stringValue;
+}
