@@ -469,7 +469,16 @@ function formatTimestamp(timestamp) {
 }
 
 function downloadCSV(rows, filename) {
-  const headers = getAllHeaders(rows);
+  const excludedFields = [
+    "id",
+    "submissionGroupId",
+    "linkedCourseResponseId",
+    "createdAt"
+  ];
+
+  const headers = getAllHeaders(rows).filter(
+    (header) => !excludedFields.includes(header)
+  );
 
   const csvRows = [
     headers.join(","),
