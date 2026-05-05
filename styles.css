@@ -1,3 +1,5 @@
+/* style.css */
+
 * {
   box-sizing: border-box;
 }
@@ -10,7 +12,7 @@ body {
 }
 
 .container {
-  max-width: 650px;
+  max-width: 750px;
   margin: 40px auto;
   padding: 28px;
   background: white;
@@ -23,15 +25,24 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  margin-top: 0;
+}
+
 .intro {
   text-align: center;
   color: #555;
   margin-bottom: 28px;
 }
 
-form {
+form,
+.form-step.active {
   display: grid;
   gap: 18px;
+}
+
+.form-step {
+  display: none;
 }
 
 label {
@@ -41,11 +52,17 @@ label {
 }
 
 input,
-select {
+select,
+textarea {
   padding: 11px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+textarea {
+  resize: vertical;
 }
 
 button {
@@ -64,8 +81,96 @@ button:hover {
   background: #1558b0;
 }
 
+.secondary-button {
+  background: #666;
+}
+
+.secondary-button:hover {
+  background: #444;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+.button-row button {
+  flex: 1;
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.matrix-table th,
+.matrix-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.matrix-table th:first-child,
+.matrix-table td:first-child {
+  text-align: left;
+  min-width: 220px;
+}
+
+.matrix-table input {
+  transform: scale(1.15);
+}
+
+.instructor-feedback-card {
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background: #fafafa;
+  display: grid;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.remove-instructor-button {
+  background: #b3261e;
+}
+
+.remove-instructor-button:hover {
+  background: #8c1d18;
+}
+
 #statusMessage {
   margin-top: 20px;
   text-align: center;
   font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin: 0;
+    min-height: 100vh;
+    border-radius: 0;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .matrix-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .matrix-table {
+    min-width: 650px;
+  }
+
+  .button-row {
+    flex-direction: column-reverse;
+  }
+
+  button {
+    width: 100%;
+  }
 }

@@ -1,11 +1,11 @@
+// services.js
+
 const services = [
-  "Financial Aid",
-  "Academic Advising",
-  "Tutoring",
-  "Career Services",
-  "Registration",
-  "Testing Center",
-  "Library",
-  "IT Support",
-  "Other"
+  "Student Services",
+  "Financial Aid Services",
+  "Services for Students with Disabilities",
+  "Technology and Campus IT",
+  "Facilities and Safety",
+  "Veteran Services",
+  "Complete the survey without leaving additional feedback"
 ];
