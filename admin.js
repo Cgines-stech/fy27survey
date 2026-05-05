@@ -476,7 +476,7 @@ function downloadCSV(rows, filename) {
     "createdAt"
   ];
 
-  const headers = getAllHeaders(rows).filter(
+  const headers = getVisibleHeaders(rows).filter(
     (header) => !excludedFields.includes(header)
   );
 
@@ -513,6 +513,19 @@ function getAllHeaders(rows) {
   });
 
   return Array.from(headers);
+}
+
+function getVisibleHeaders(rows) {
+  const excludedFields = [
+    "id",
+    "submissionGroupId",
+    "linkedCourseResponseId",
+    "createdAt"
+  ];
+
+  return getAllHeaders(rows).filter(
+    (header) => !excludedFields.includes(header)
+  );
 }
 
 function escapeCSV(value) {
@@ -646,7 +659,7 @@ function renderTable(container, rows) {
     return;
   }
 
-  const headers = getAllHeaders(rows);
+  const headers = getVisibleHeaders(rows);
 
   const wrapper = document.createElement("div");
   wrapper.className = "table-wrapper";
