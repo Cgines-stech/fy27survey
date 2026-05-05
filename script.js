@@ -25,70 +25,73 @@ const db = getFirestore(app);
 const ratingOptions = ["Excellent", "Good", "Fair", "Poor", "Not Applicable"];
 
 const courseQuestions = [
-  "The course content was clearly organized.",
-  "The course helped me build useful skills.",
-  "Assignments supported the course objectives.",
-  "Course materials were helpful.",
-  "Overall, I was satisfied with this course."
+  "You understand what you were expected to learn",
+  "The books, links, and resources easy to access",
+  "The work help you practice the skills taught",
+  "The tests accurately reflect what was covered in class",
+  "The amount of homework and in-class work manageable"
 ];
 
 const instructorQuestions = [
-  "The instructor communicated clearly.",
-  "The instructor was prepared and organized.",
-  "The instructor provided helpful feedback.",
-  "Overall, I was satisfied with this instructor."
+  "Preparedness",
+  "Organization",
+  "Responsiveness",
+  "Engagement"
 ];
 
 const programQuestions = [
-  "The program prepared me for my career goals.",
-  "The program content was relevant and useful.",
-  "The program was well organized.",
-  "The program met my expectations.",
-  "Overall, I was satisfied with the program."
+  "Looking back, rate your total experience",
+  "The program delivered what was promised",
+  "There was a good mix of lecture, hands-on, and digital work",
+  "The tools and machines were in good working order",
+  "Rate the physical lab environment"
 ];
 
 const serviceQuestionsByService = {
   "Student Services": [
-    "Student Services staff were helpful.",
-    "Student Services communicated clearly.",
-    "Student Services responded in a timely manner.",
-    "Student Services helped me resolve my need.",
-    "Overall, I was satisfied with Student Services."
+    "The enrollment process was intuitive and met my expectations:",
+    "I was helped through the enrollment process with appropriate assistance:",
+    "Staff members are well-trained about the College and able to assist me:",
+    "Staff members are helpful and courteous:",
+    "Front desk staff assisted me promptly and routed me appropriately:",
+    "The wait time for service was reasonable:",
+    "My Academic Counselor helped me set and meet realistic goals:",
+    "Hours of operation met my needs:"
   ],
   "Financial Aid Services": [
-    "Financial Aid information was easy to understand.",
-    "Financial Aid staff were helpful.",
-    "Financial Aid services were timely.",
-    "Financial Aid helped me understand my options.",
-    "Overall, I was satisfied with Financial Aid Services."
+    "Staff members are courteous:",
+    "Staff members are knowledgeable and are able to answer my questions:",
+    "Information about financial aid resources is complete, helpful, and easy to find:",
+    "Hours of operation meet my needs:",
+    "Problems or questions about financial aid are handled in an efficient, professional manner:"
   ],
   "Services for Students with Disabilities": [
-    "Disability services were accessible.",
-    "Staff communicated accommodations clearly.",
-    "My needs were handled respectfully.",
-    "Support was provided in a timely manner.",
-    "Overall, I was satisfied with disability services."
+    "The process for requesting an accommodation was clear to me:",
+    "Staff members are courteous:",
+    "Staff members are knowledgeable and are able to answer my questions:",
+    "Requirements and performance expectations are clear to me:",
+    "I have access to resources defined in my Accommodations Letter:"
   ],
   "Technology and Campus IT": [
-    "Technology systems were reliable.",
-    "IT support was helpful.",
-    "Technology issues were resolved in a timely manner.",
-    "Online tools were easy to access.",
-    "Overall, I was satisfied with Technology and Campus IT."
+    "Computers are available and accessible to complete required course work:",
+    "Problems with computers are resolved quickly:",
+    "Training provided to use the technology required for this course was provided:",
+    "Ability to access and use online resources for this course:",
+    "Responsiveness and quality of support for online instruction:"
   ],
   "Facilities and Safety": [
-    "Campus facilities were clean.",
-    "Campus facilities were accessible.",
-    "I felt safe on campus.",
-    "Safety concerns were addressed appropriately.",
-    "Overall, I was satisfied with Facilities and Safety."
+    "Campus facilities are maintained:",
+    "Campus facilities are clean:",
+    "The College maintains a safe environment:",
+    "The Health & Safety Plan is available for review and safety is enforced on campus:",
+    "Parking is adequate:"
   ],
   "Veteran Services": [
-    "Veteran Services staff were helpful.",
-    "Veteran benefits information was clear.",
-    "Veteran Services responded in a timely manner.",
-    "Veteran Services supported my needs.",
-    "Overall, I was satisfied with Veteran Services."
+    "Staff members are courteous and knowledgeable about the needs of veterans:",
+    "Staff members are knowledgeable about the educational benefits available to veterans:",
+    "The school offers resources needed to support my success:",
+    "School resources improved my performance and success at the College:",
+    "Hours of operation met my needs:"
   ]
 };
 
@@ -198,7 +201,7 @@ form.addEventListener("submit", async (event) => {
   try {
     const courseDocRef = await addDoc(collection(db, "courseResponses"), {
       ...baseData,
-      courseRatings: getMatrixResponses("course")
+      courseRatings: getMatrixResponses("course", courseQuestions)
     });
 
     const instructorResponses = getInstructorResponses();
@@ -219,7 +222,7 @@ form.addEventListener("submit", async (event) => {
       await addDoc(collection(db, "programCompletionResponses"), {
         ...baseData,
         linkedCourseResponseId: courseDocRef.id,
-        programRatings: getMatrixResponses("program"),
+        programRatings: getMatrixResponses("program", programQuestions),
         programPositiveFeedback: document.getElementById("programPositiveFeedback").value.trim(),
         programImprovementFeedback: document.getElementById("programImprovementFeedback").value.trim(),
         createdAt: serverTimestamp()
@@ -233,7 +236,10 @@ form.addEventListener("submit", async (event) => {
           ...baseData,
           linkedCourseResponseId: courseDocRef.id,
           service: serviceSelect.value,
-          serviceRatings: getMatrixResponses("service"),
+          serviceRatings: getMatrixResponses(
+            "service",
+            serviceQuestionsByService[serviceSelect.value] || []
+          ),
           servicePositiveFeedback: document.getElementById("servicePositiveFeedback").value.trim(),
           serviceImprovementFeedback: document.getElementById("serviceImprovementFeedback").value.trim(),
           createdAt: serverTimestamp()
@@ -452,14 +458,16 @@ function matrixComplete(groupName, questions) {
   });
 }
 
-function getMatrixResponses(groupName) {
+function getMatrixResponses(groupName, questions) {
   const responses = {};
 
-  document
-    .querySelectorAll(`input[name^="${groupName}_question_"]:checked`)
-    .forEach((input) => {
-      responses[input.name] = input.value;
-    });
+  questions.forEach((question, questionIndex) => {
+    const selected = document.querySelector(
+      `input[name="${groupName}_question_${questionIndex}"]:checked`
+    );
+
+    responses[question] = selected ? selected.value : "";
+  });
 
   return responses;
 }
@@ -542,8 +550,12 @@ function getInstructorResponses() {
     const blockId = card.dataset.instructorBlockId;
     const ratings = {};
 
-    card.querySelectorAll(`input[name^="${blockId}_question_"]:checked`).forEach((input) => {
-      ratings[input.name.replace(`${blockId}_`, "")] = input.value;
+    instructorQuestions.forEach((question, questionIndex) => {
+      const selected = card.querySelector(
+        `input[name="${blockId}_question_${questionIndex}"]:checked`
+      );
+
+      ratings[question] = selected ? selected.value : "";
     });
 
     return {

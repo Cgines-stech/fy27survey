@@ -4,6 +4,7 @@
 const data = {
   "Program 1": {
     "Course 1A": [
+      "Cash Gines",
       "Instructor A",
       "Instructor B"
     ],

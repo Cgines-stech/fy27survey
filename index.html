@@ -14,11 +14,11 @@
 
     <form id="reviewForm">
       <section class="form-step active">
-        <p class="intro">Thank you for taking this survey, please press Next to continue.</p>
+        <p class="intro">Student evaluations are important in assessing the effectiveness of the instruction you receive at Southwest Tech. Please respond honestly and candidly. You will evaluate the course, instructor, and one college service. If you have any questions, concerns, or difficulty completing this form, please see Student Services. Please note that no personally identifiable information will be accessible to your instructor. Your participation is anonymous.</p>
       </section>
 
       <section class="form-step">
-        <h2>Course Information</h2>
+        <h2>(Required) Select from the following dropdown menus to find your course:</h2>
 
         <label>
           Program
@@ -36,12 +36,12 @@
       </section>
 
       <section class="form-step">
-        <h2>Course Feedback</h2>
+        <h2>(Required) Please rate your course in the following areas:</h2>
         <div id="courseMatrix"></div>
       </section>
 
       <section class="form-step">
-        <h2>Instructor Feedback</h2>
+        <h2>Please rate the effectiveness of the instructor:</h2>
         <div id="instructorFeedbackContainer"></div>
         <button type="button" id="addInstructorButton">Add Another Instructor</button>
       </section>
@@ -50,7 +50,7 @@
         <h2>Program Completion</h2>
 
         <label>
-          Is this your last course in the program?
+          (Required) Is this your last course of the program?
           <select id="isLastCourse" required>
             <option value="">Select an option</option>
             <option value="No">No</option>
@@ -60,16 +60,16 @@
       </section>
 
       <section class="form-step" id="programFeedbackStep">
-        <h2>Program Feedback</h2>
+        <h2>(Required) Please rate your program in the following areas</h2>
         <div id="programMatrix"></div>
 
         <label>
-          What did you like most about the program?
+          (Required) Reflecting on your entire time in this program, what was the most valuable part of your experience?
           <textarea id="programPositiveFeedback" rows="5"></textarea>
         </label>
 
         <label>
-          What could be improved about the program?
+          (Required) What is one major change Southwest Tech could make to better prepare students for the workforce?
           <textarea id="programImprovementFeedback" rows="5"></textarea>
         </label>
       </section>
@@ -78,7 +78,7 @@
         <h2>Service Feedback</h2>
 
         <label>
-          Would you like to leave feedback for one of the following services?
+          (Required) Thanks for your feedback! We ask that you evaluate at one of the following Campus Services if you are able. If you prefer to complete your feedback now, please select "Complete Survey".
           <select id="service">
             <option value="">Select an option</option>
           </select>
@@ -90,12 +90,12 @@
         <div id="serviceMatrix"></div>
 
         <label>
-          What went well with this service?
+          What aspects of this service are particularly good?
           <textarea id="servicePositiveFeedback" rows="5"></textarea>
         </label>
 
         <label>
-          What could be improved with this service?
+          How could we improve this service?
           <textarea id="serviceImprovementFeedback" rows="5"></textarea>
         </label>
       </section>
