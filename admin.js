@@ -1,8 +1,6 @@
 
 // admin.js
 
-// admin.js
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 
 import {
@@ -120,6 +118,12 @@ onAuthStateChanged(auth, async (user) => {
     summarySection.style.display = "block";
 
     await loadAllowedResponses(userProfile);
+
+    setupFilters(userProfile);
+    applyFiltersAndRenderTables(userProfile);
+
+    filterSection.style.display = "block";
+    tableSection.style.display = "block";
 
     const totalRows =
       currentCourseRows.length +
@@ -513,7 +517,10 @@ function escapeCSV(value) {
     return `"${stringValue.replace(/"/g, '""')}"`;
   }
 
-  function setupFilters(userProfile) {
+  return stringValue;
+}
+
+function setupFilters(userProfile) {
   populateFilter(programFilter, getUniqueValues([
     ...currentCourseRows,
     ...currentInstructorRows,
@@ -550,10 +557,10 @@ function escapeCSV(value) {
     startDateFilter,
     endDateFilter
   ].forEach((filter) => {
-    filter.addEventListener("change", () => applyFiltersAndRenderTables(userProfile));
+    filter.onchange = () => applyFiltersAndRenderTables(userProfile);
   });
 
-  clearFiltersButton.addEventListener("click", () => {
+  clearFiltersButton.onclick = () => {
     programFilter.value = "";
     courseFilter.value = "";
     instructorFilter.value = "";
@@ -561,7 +568,7 @@ function escapeCSV(value) {
     endDateFilter.value = "";
 
     applyFiltersAndRenderTables(userProfile);
-  });
+  };
 }
 
 function applyFiltersAndRenderTables(userProfile) {
@@ -590,13 +597,8 @@ function applyFiltersAndRenderTables(userProfile) {
 
 function filterRows(rows, userProfile) {
   return rows.filter((row) => {
-    if (programFilter.value && row.program !== programFilter.value) {
-      return false;
-    }
-
-    if (courseFilter.value && row.course !== courseFilter.value) {
-      return false;
-    }
+    if (programFilter.value && row.program !== programFilter.value) return false;
+    if (courseFilter.value && row.course !== courseFilter.value) return false;
 
     if (
       (userProfile.role === "admin" || userProfile.role === "director") &&
@@ -606,33 +608,22 @@ function filterRows(rows, userProfile) {
       return false;
     }
 
-    if (!dateInRange(row.submissionDate)) {
-      return false;
-    }
-
-    return true;
+    return dateInRange(row.submissionDate);
   });
 }
 
 function dateInRange(submissionDate) {
-  if (!submissionDate) {
-    return true;
-  }
+  if (!submissionDate) return true;
 
   const rowDate = new Date(submissionDate);
   const startDate = startDateFilter.value ? new Date(startDateFilter.value) : null;
   const endDate = endDateFilter.value ? new Date(endDateFilter.value) : null;
 
-  if (startDate && rowDate < startDate) {
-    return false;
-  }
+  if (startDate && rowDate < startDate) return false;
 
   if (endDate) {
     endDate.setHours(23, 59, 59, 999);
-
-    if (rowDate > endDate) {
-      return false;
-    }
+    if (rowDate > endDate) return false;
   }
 
   return true;
@@ -656,15 +647,11 @@ function renderTable(container, rows) {
 
   table.innerHTML = `
     <thead>
-      <tr>
-        ${headers.map((header) => `<th>${formatHeader(header)}</th>`).join("")}
-      </tr>
+      <tr>${headers.map((header) => `<th>${formatHeader(header)}</th>`).join("")}</tr>
     </thead>
     <tbody>
       ${rows.map((row) => `
-        <tr>
-          ${headers.map((header) => `<td>${escapeHTML(row[header] ?? "")}</td>`).join("")}
-        </tr>
+        <tr>${headers.map((header) => `<td>${escapeHTML(row[header] ?? "")}</td>`).join("")}</tr>
       `).join("")}
     </tbody>
   `;
@@ -708,7 +695,4 @@ function escapeHTML(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
-}
-
-  return stringValue;
 }
