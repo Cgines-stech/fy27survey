@@ -174,3 +174,55 @@ button:hover {
     width: 100%;
   }
 }
+
+.dashboard-container {
+  max-width: 1100px;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-bottom: 28px;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  background: white;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  border: 1px solid #ddd;
+  padding: 9px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.dashboard-table th {
+  background: #f1f3f4;
+  font-weight: bold;
+}
+
+.empty-table-message {
+  color: #666;
+  font-style: italic;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 700px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-table {
+    min-width: 850px;
+  }
+}

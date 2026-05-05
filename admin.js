@@ -46,6 +46,29 @@ const summarySection = document.getElementById("summarySection");
 const roleSummary = document.getElementById("roleSummary");
 const responseCount = document.getElementById("responseCount");
 
+const filterSection = document.getElementById("filterSection");
+const tableSection = document.getElementById("tableSection");
+
+const programFilter = document.getElementById("programFilter");
+const courseFilter = document.getElementById("courseFilter");
+const instructorFilter = document.getElementById("instructorFilter");
+const instructorFilterLabel = document.getElementById("instructorFilterLabel");
+const startDateFilter = document.getElementById("startDateFilter");
+const endDateFilter = document.getElementById("endDateFilter");
+const clearFiltersButton = document.getElementById("clearFiltersButton");
+
+const courseTable = document.getElementById("courseTable");
+const instructorTable = document.getElementById("instructorTable");
+const programTable = document.getElementById("programTable");
+const serviceTable = document.getElementById("serviceTable");
+const additionalFeedbackTable = document.getElementById("additionalFeedbackTable");
+
+let filteredCourseRows = [];
+let filteredInstructorRows = [];
+let filteredProgramRows = [];
+let filteredServiceRows = [];
+let filteredAdditionalFeedbackRows = [];
+
 let currentUserProfile = null;
 
 let currentCourseRows = [];
@@ -105,7 +128,30 @@ onAuthStateChanged(auth, async (user) => {
       currentServiceRows.length +
       currentAdditionalFeedbackRows.length;
 
-    exportButton.style.display = totalRows > 0 ? "block" : "none";
+    exportButton.addEventListener("click", () => {
+      if (filteredCourseRows.length > 0) {
+        downloadCSV(filteredCourseRows, "fy27-filtered-course-responses.csv");
+      }
+
+      if (filteredInstructorRows.length > 0) {
+        downloadCSV(filteredInstructorRows, "fy27-filtered-instructor-responses.csv");
+      }
+
+      if (filteredProgramRows.length > 0) {
+        downloadCSV(filteredProgramRows, "fy27-filtered-program-completion-responses.csv");
+      }
+
+      if (filteredServiceRows.length > 0) {
+        downloadCSV(filteredServiceRows, "fy27-filtered-service-responses.csv");
+      }
+
+      if (filteredAdditionalFeedbackRows.length > 0) {
+        downloadCSV(filteredAdditionalFeedbackRows, "fy27-filtered-additional-feedback-responses.csv");
+      }
+
+      adminStatus.textContent = "Filtered CSV download complete.";
+      adminStatus.style.color = "green";
+    });
 
     responseCount.textContent =
       `${currentCourseRows.length} course response(s), ` +
@@ -393,6 +439,15 @@ function resetDashboard() {
   adminStatus.style.color = "#555";
   responseCount.textContent = "";
   roleSummary.textContent = "";
+
+  filterSection.style.display = "none";
+  tableSection.style.display = "none";
+
+  courseTable.innerHTML = "";
+  instructorTable.innerHTML = "";
+  programTable.innerHTML = "";
+  serviceTable.innerHTML = "";
+  additionalFeedbackTable.innerHTML = "";
 }
 
 function flattenObject(objectValue, prefix) {
@@ -457,6 +512,203 @@ function escapeCSV(value) {
   ) {
     return `"${stringValue.replace(/"/g, '""')}"`;
   }
+
+  function setupFilters(userProfile) {
+  populateFilter(programFilter, getUniqueValues([
+    ...currentCourseRows,
+    ...currentInstructorRows,
+    ...currentProgramRows,
+    ...currentServiceRows,
+    ...currentAdditionalFeedbackRows
+  ], "program"), "All Programs");
+
+  populateFilter(courseFilter, getUniqueValues([
+    ...currentCourseRows,
+    ...currentInstructorRows,
+    ...currentProgramRows,
+    ...currentServiceRows,
+    ...currentAdditionalFeedbackRows
+  ], "course"), "All Courses");
+
+  const canFilterByInstructor =
+    userProfile.role === "admin" || userProfile.role === "director";
+
+  instructorFilterLabel.style.display = canFilterByInstructor ? "grid" : "none";
+
+  if (canFilterByInstructor) {
+    populateFilter(
+      instructorFilter,
+      getUniqueValues(currentInstructorRows, "instructorName"),
+      "All Instructors"
+    );
+  }
+
+  [
+    programFilter,
+    courseFilter,
+    instructorFilter,
+    startDateFilter,
+    endDateFilter
+  ].forEach((filter) => {
+    filter.addEventListener("change", () => applyFiltersAndRenderTables(userProfile));
+  });
+
+  clearFiltersButton.addEventListener("click", () => {
+    programFilter.value = "";
+    courseFilter.value = "";
+    instructorFilter.value = "";
+    startDateFilter.value = "";
+    endDateFilter.value = "";
+
+    applyFiltersAndRenderTables(userProfile);
+  });
+}
+
+function applyFiltersAndRenderTables(userProfile) {
+  filteredCourseRows = filterRows(currentCourseRows, userProfile);
+  filteredInstructorRows = filterRows(currentInstructorRows, userProfile);
+  filteredProgramRows = filterRows(currentProgramRows, userProfile);
+  filteredServiceRows = filterRows(currentServiceRows, userProfile);
+  filteredAdditionalFeedbackRows = filterRows(currentAdditionalFeedbackRows, userProfile);
+
+  renderTable(courseTable, filteredCourseRows);
+  renderTable(instructorTable, filteredInstructorRows);
+  renderTable(programTable, filteredProgramRows);
+  renderTable(serviceTable, filteredServiceRows);
+  renderTable(additionalFeedbackTable, filteredAdditionalFeedbackRows);
+
+  const totalRows =
+    filteredCourseRows.length +
+    filteredInstructorRows.length +
+    filteredProgramRows.length +
+    filteredServiceRows.length +
+    filteredAdditionalFeedbackRows.length;
+
+  responseCount.textContent = `${totalRows} filtered response row(s) visible.`;
+  exportButton.style.display = totalRows > 0 ? "block" : "none";
+}
+
+function filterRows(rows, userProfile) {
+  return rows.filter((row) => {
+    if (programFilter.value && row.program !== programFilter.value) {
+      return false;
+    }
+
+    if (courseFilter.value && row.course !== courseFilter.value) {
+      return false;
+    }
+
+    if (
+      (userProfile.role === "admin" || userProfile.role === "director") &&
+      instructorFilter.value &&
+      row.instructorName !== instructorFilter.value
+    ) {
+      return false;
+    }
+
+    if (!dateInRange(row.submissionDate)) {
+      return false;
+    }
+
+    return true;
+  });
+}
+
+function dateInRange(submissionDate) {
+  if (!submissionDate) {
+    return true;
+  }
+
+  const rowDate = new Date(submissionDate);
+  const startDate = startDateFilter.value ? new Date(startDateFilter.value) : null;
+  const endDate = endDateFilter.value ? new Date(endDateFilter.value) : null;
+
+  if (startDate && rowDate < startDate) {
+    return false;
+  }
+
+  if (endDate) {
+    endDate.setHours(23, 59, 59, 999);
+
+    if (rowDate > endDate) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function renderTable(container, rows) {
+  container.innerHTML = "";
+
+  if (!rows.length) {
+    container.innerHTML = `<p class="empty-table-message">No responses to display.</p>`;
+    return;
+  }
+
+  const headers = getAllHeaders(rows);
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "table-wrapper";
+
+  const table = document.createElement("table");
+  table.className = "dashboard-table";
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        ${headers.map((header) => `<th>${formatHeader(header)}</th>`).join("")}
+      </tr>
+    </thead>
+    <tbody>
+      ${rows.map((row) => `
+        <tr>
+          ${headers.map((header) => `<td>${escapeHTML(row[header] ?? "")}</td>`).join("")}
+        </tr>
+      `).join("")}
+    </tbody>
+  `;
+
+  wrapper.appendChild(table);
+  container.appendChild(wrapper);
+}
+
+function populateFilter(selectElement, values, placeholderText) {
+  selectElement.innerHTML = `<option value="">${placeholderText}</option>`;
+
+  values.forEach((value) => {
+    const option = document.createElement("option");
+    option.value = value;
+    option.textContent = value;
+    selectElement.appendChild(option);
+  });
+}
+
+function getUniqueValues(rows, key) {
+  return Array.from(
+    new Set(
+      rows
+        .map((row) => row[key])
+        .filter((value) => value !== undefined && value !== null && value !== "")
+    )
+  ).sort();
+}
+
+function formatHeader(header) {
+  return header
+    .replace(/([A-Z])/g, " $1")
+    .replace(/_/g, " ")
+    .replace(/^./, (firstLetter) => firstLetter.toUpperCase());
+}
+
+function escapeHTML(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
 
   return stringValue;
 }

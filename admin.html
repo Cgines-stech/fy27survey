@@ -10,13 +10,13 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="container">
+  <main class="container dashboard-container">
     <h1>Survey Dashboard</h1>
-    <p class="intro">Sign in to view and export survey responses.</p>
+    <p class="intro">Sign in to view, filter, and export survey responses.</p>
 
     <button id="signInButton">Sign in with Google</button>
     <button id="signOutButton" style="display: none;">Sign Out</button>
-    <button id="exportButton" style="display: none;">Download CSV</button>
+    <button id="exportButton" style="display: none;">Download Filtered CSV</button>
 
     <p id="adminStatus"></p>
 
@@ -25,8 +25,70 @@
       <p id="roleSummary"></p>
       <p id="responseCount"></p>
     </section>
+
+    <section id="filterSection" style="display: none;">
+      <h2>Filters</h2>
+
+      <div class="filter-grid">
+        <label>
+          Program
+          <select id="programFilter">
+            <option value="">All Programs</option>
+          </select>
+        </label>
+
+        <label>
+          Course
+          <select id="courseFilter">
+            <option value="">All Courses</option>
+          </select>
+        </label>
+
+        <label id="instructorFilterLabel" style="display: none;">
+          Instructor
+          <select id="instructorFilter">
+            <option value="">All Instructors</option>
+          </select>
+        </label>
+
+        <label>
+          Start Date
+          <input type="date" id="startDateFilter" />
+        </label>
+
+        <label>
+          End Date
+          <input type="date" id="endDateFilter" />
+        </label>
+      </div>
+
+      <button type="button" id="clearFiltersButton" class="secondary-button">
+        Clear Filters
+      </button>
+    </section>
+
+    <section id="tableSection" style="display: none;">
+      <h2>Responses</h2>
+
+      <h3>Course Responses</h3>
+      <div id="courseTable"></div>
+
+      <h3>Instructor Responses</h3>
+      <div id="instructorTable"></div>
+
+      <h3>Program Completion Responses</h3>
+      <div id="programTable"></div>
+
+      <h3>Service Responses</h3>
+      <div id="serviceTable"></div>
+
+      <h3>Additional Feedback</h3>
+      <div id="additionalFeedbackTable"></div>
+    </section>
   </main>
 
+  <script src="data.js"></script>
+  <script src="instructor.js"></script>
   <script type="module" src="admin.js"></script>
 </body>
 </html>
