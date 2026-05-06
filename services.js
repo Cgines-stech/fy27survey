@@ -7,5 +7,5 @@ const services = [
   "Technology and Campus IT",
   "Facilities and Safety",
   "Veteran Services",
-  "Complete the survey without leaving additional feedback"
+  "Complete Survey"
 ];

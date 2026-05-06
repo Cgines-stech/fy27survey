@@ -148,10 +148,17 @@ courseSelect.addEventListener("change", () => {
 serviceSelect.addEventListener("change", () => {
   const selectedService = serviceSelect.value;
 
-  if (
+  const servicePositiveFeedback = document.getElementById("servicePositiveFeedback");
+  const serviceImprovementFeedback = document.getElementById("serviceImprovementFeedback");
+
+  const requiresServiceFeedback =
     selectedService &&
-    selectedService !== "Complete the survey without leaving additional feedback"
-  ) {
+    selectedService !== "Complete the survey without leaving additional feedback";
+
+  servicePositiveFeedback.required = requiresServiceFeedback;
+  serviceImprovementFeedback.required = requiresServiceFeedback;
+
+  if (requiresServiceFeedback) {
     serviceFeedbackTitle.textContent = `${selectedService} Feedback`;
     renderMatrix(
       serviceMatrix,
