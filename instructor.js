@@ -3,7 +3,7 @@
 
 const instructorEmails = {
   "Cash Gines": "cgines@stech.edu",
-  "Instructor A": "instructor.a@school.edu",
-  "Instructor B": "instructor.b@school.edu",
-  "Instructor C": "instructor.c@school.edu"
+  "Scott Leavitt": "sleavitt@stech.edu",
+  "Neal Mason": "nmason@stech.edu",
+  "Danielle Maynard": "dmaynard@stech.edu"
 };

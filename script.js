@@ -221,7 +221,7 @@ form.addEventListener("submit", async (event) => {
         ...baseData,
         linkedCourseResponseId: courseDocRef.id,
         instructorName: instructorResponse.instructorName,
-        instructorEmail: instructorEmails[instructorResponse.instructorName] || "",
+        instructorEmail: instructorEmails[instructorResponse.instructorName] || "missing-instructor-email",
         instructorRatings: instructorResponse.ratings,
         instructorAdditionalFeedback: instructorResponse.additionalFeedback,
         createdAt: serverTimestamp()
