@@ -624,7 +624,12 @@ function applyFiltersAndRenderTables(userProfile) {
   filteredInstructorRows = filterRows(currentInstructorRows, userProfile);
   filteredProgramRows = filterRows(currentProgramRows, userProfile);
   filteredServiceRows = filterRows(currentServiceRows, userProfile);
-  filteredAdditionalFeedbackRows = filterRows(currentAdditionalFeedbackRows, userProfile);
+  filteredAdditionalFeedbackRows = filterRows(
+  currentAdditionalFeedbackRows,
+  userProfile
+).filter((row) => {
+  return row.additionalFeedback && row.additionalFeedback.trim() !== "";
+});
 
   renderTable(courseTable, filteredCourseRows);
   if (userProfile.role === "instructor") {
