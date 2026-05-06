@@ -627,7 +627,15 @@ function applyFiltersAndRenderTables(userProfile) {
   filteredAdditionalFeedbackRows = filterRows(currentAdditionalFeedbackRows, userProfile);
 
   renderTable(courseTable, filteredCourseRows);
+  if (userProfile.role === "instructor") {
+  renderTable(
+    instructorTable,
+    filteredInstructorRows,
+    ["isLastCourse", "instructorEmail"]
+  );
+} else {
   renderTable(instructorTable, filteredInstructorRows);
+}
   renderTable(programTable, filteredProgramRows);
   renderServiceCards(
   serviceTable,
