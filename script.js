@@ -153,19 +153,22 @@ serviceSelect.addEventListener("change", () => {
 
   const requiresServiceFeedback =
     selectedService &&
-    selectedService !== "Complete the survey without leaving additional feedback";
+    selectedService !== "Complete Survey";
 
   servicePositiveFeedback.required = requiresServiceFeedback;
   serviceImprovementFeedback.required = requiresServiceFeedback;
 
-  if (requiresServiceFeedback) {
-    serviceFeedbackTitle.textContent = `${selectedService} Feedback`;
-    renderMatrix(
-      serviceMatrix,
-      "service",
-      serviceQuestionsByService[selectedService] || []
-    );
-  }
+if (requiresServiceFeedback) {
+  serviceFeedbackTitle.textContent = `${selectedService} Feedback`;
+
+  renderMatrix(
+    serviceMatrix,
+    "service",
+    serviceQuestionsByService[selectedService] || []
+  );
+} else {
+  serviceMatrix.innerHTML = "";
+}
 });
 
 addInstructorButton.addEventListener("click", () => {
@@ -237,7 +240,7 @@ form.addEventListener("submit", async (event) => {
 
       if (
         serviceSelect.value &&
-        serviceSelect.value !== "Complete the survey without leaving additional feedback"
+        serviceSelect.value !== "Complete Survey"
       ) {
         await addDoc(collection(db, "serviceResponses"), {
           ...baseData,
@@ -283,7 +286,7 @@ function goToNextStep() {
   }
 
   if (currentStep.id === "serviceChoiceStep") {
-    if (serviceSelect.value === "Complete the survey without leaving additional feedback") {
+    if (serviceSelect.value === "Complete Survey") {
       showStepById("additionalFeedbackStep");
     } else {
       showStepById("serviceFeedbackStep");
@@ -318,7 +321,7 @@ function goToPreviousStep() {
       showStepContainingElement(isLastCourseSelect);
     } else if (
       serviceSelect.value &&
-      serviceSelect.value !== "Complete the survey without leaving additional feedback"
+      serviceSelect.value !== "Complete Survey"
     ) {
       showStepById("serviceFeedbackStep");
     } else {
