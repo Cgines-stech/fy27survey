@@ -67,6 +67,9 @@ const programResponseSection = document.getElementById("programResponseSection")
 const additionalFeedbackResponseSection = document.getElementById("additionalFeedbackResponseSection");
 const serviceResponseSection = document.getElementById("serviceResponseSection");
 
+const serviceFilter = document.getElementById("serviceFilter");
+const serviceFilterLabel = document.getElementById("serviceFilterLabel");
+
 let filteredCourseRows = [];
 let filteredInstructorRows = [];
 let filteredProgramRows = [];
@@ -555,23 +558,49 @@ function setupFilters(userProfile) {
     ...currentAdditionalFeedbackRows
   ], "course"), "All Courses");
 
-  const canFilterByInstructor =
-    userProfile.role === "admin" || userProfile.role === "director";
+  populateFilter(
+    instructorFilter,
+    getUniqueValues(currentInstructorRows, "instructorName"),
+    "All Instructors"
+  );
 
-  instructorFilterLabel.style.display = canFilterByInstructor ? "grid" : "none";
+  populateFilter(
+    serviceFilter,
+    getUniqueValues(currentServiceRows, "service"),
+    "All Services"
+  );
 
-  if (canFilterByInstructor) {
-    populateFilter(
-      instructorFilter,
-      getUniqueValues(currentInstructorRows, "instructorName"),
-      "All Instructors"
-    );
+  programFilter.parentElement.style.display = "grid";
+  courseFilter.parentElement.style.display = "grid";
+  instructorFilterLabel.style.display = "none";
+  serviceFilterLabel.style.display = "none";
+
+  if (userProfile.role === "admin") {
+    instructorFilterLabel.style.display = "grid";
+    serviceFilterLabel.style.display = "grid";
+  }
+
+  if (userProfile.role === "director") {
+    instructorFilterLabel.style.display = "grid";
+  }
+
+  if (userProfile.role === "instructor") {
+    programFilter.parentElement.style.display = "none";
+    courseFilter.parentElement.style.display = "grid";
+  }
+
+  if (userProfile.role === "serviceDirector") {
+    programFilter.parentElement.style.display = "none";
+    courseFilter.parentElement.style.display = "none";
+    instructorFilterLabel.style.display = "none";
+    serviceFilterLabel.style.display = "grid";
   }
 
   [
     programFilter,
     courseFilter,
     instructorFilter,
+    serviceFilter,
     startDateFilter,
     endDateFilter
   ].forEach((filter) => {
@@ -582,6 +611,7 @@ function setupFilters(userProfile) {
     programFilter.value = "";
     courseFilter.value = "";
     instructorFilter.value = "";
+    serviceFilter.value = "";
     startDateFilter.value = "";
     endDateFilter.value = "";
 
@@ -620,6 +650,7 @@ function filterRows(rows, userProfile) {
   return rows.filter((row) => {
     if (programFilter.value && row.program !== programFilter.value) return false;
     if (courseFilter.value && row.course !== courseFilter.value) return false;
+    if (serviceFilter.value && row.service !== serviceFilter.value) return false;
 
     if (
       (userProfile.role === "admin" || userProfile.role === "director") &&
