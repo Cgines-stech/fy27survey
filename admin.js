@@ -681,7 +681,21 @@ function renderTable(container, rows) {
     </thead>
     <tbody>
       ${rows.map((row) => `
-        <tr>${headers.map((header) => `<td>${escapeHTML(row[header] ?? "")}</td>`).join("")}</tr>
+        <tr>${headers.map((header) => {
+  const value = row[header] ?? "";
+
+  let className = "";
+
+  if (value === "Poor") {
+    className = "rating-poor";
+  } else if (value === "Fair") {
+    className = "rating-fair";
+  } else if (value === "Excellent") {
+    className = "rating-excellent";
+  }
+
+  return `<td class="${className}">${escapeHTML(value)}</td>`;
+}).join("")}</tr>
       `).join("")}
     </tbody>
   `;

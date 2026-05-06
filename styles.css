@@ -226,3 +226,21 @@ button:hover {
     min-width: 850px;
   }
 }
+
+.rating-poor {
+  background: #ffe5e5;
+  color: #b00020;
+  font-weight: bold;
+}
+
+.rating-fair {
+  background: #fff4d6;
+  color: #8a5a00;
+  font-weight: bold;
+}
+
+.rating-excellent {
+  background: #e8f5e9;
+  color: #1b5e20;
+  font-weight: bold;
+}
