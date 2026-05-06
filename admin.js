@@ -611,7 +611,11 @@ function applyFiltersAndRenderTables(userProfile) {
   renderTable(courseTable, filteredCourseRows);
   renderTable(instructorTable, filteredInstructorRows);
   renderTable(programTable, filteredProgramRows);
-  renderTable(serviceTable, filteredServiceRows);
+  renderTable(
+  serviceTable,
+  filteredServiceRows,
+  ["program", "course"]
+);
   renderTable(additionalFeedbackTable, filteredAdditionalFeedbackRows);
 
   const totalRows =
@@ -659,7 +663,7 @@ function dateInRange(submissionDate) {
   return true;
 }
 
-function renderTable(container, rows) {
+function renderTable(container, rows, hiddenColumns = []) {
   container.innerHTML = "";
 
   if (!rows.length) {
@@ -667,7 +671,9 @@ function renderTable(container, rows) {
     return;
   }
 
-  const headers = getVisibleHeaders(rows);
+  const headers = getVisibleHeaders(rows).filter(
+  (header) => !hiddenColumns.includes(header)
+);
 
   const wrapper = document.createElement("div");
   wrapper.className = "table-wrapper";
