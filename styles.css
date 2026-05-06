@@ -244,3 +244,50 @@ button:hover {
   color: #1b5e20;
   font-weight: bold;
 }
+
+.response-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 18px;
+  background: #fff;
+}
+
+.response-card h4 {
+  margin-top: 0;
+  color: #1a73e8;
+}
+
+.response-list {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.response-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+}
+
+.response-question {
+  font-weight: bold;
+}
+
+.rating-pill {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #eee;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .response-item {
+    grid-template-columns: 1fr;
+  }
+}

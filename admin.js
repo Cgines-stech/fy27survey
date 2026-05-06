@@ -611,10 +611,9 @@ function applyFiltersAndRenderTables(userProfile) {
   renderTable(courseTable, filteredCourseRows);
   renderTable(instructorTable, filteredInstructorRows);
   renderTable(programTable, filteredProgramRows);
-  renderTable(
+  renderServiceCards(
   serviceTable,
-  filteredServiceRows,
-  ["program", "course"]
+  filteredServiceRows
 );
   renderTable(additionalFeedbackTable, filteredAdditionalFeedbackRows);
 
@@ -708,6 +707,63 @@ function renderTable(container, rows, hiddenColumns = []) {
 
   wrapper.appendChild(table);
   container.appendChild(wrapper);
+}
+
+function renderServiceCards(container, rows) {
+  container.innerHTML = "";
+
+  if (!rows.length) {
+    container.innerHTML = `<p class="empty-table-message">No responses to display.</p>`;
+    return;
+  }
+
+  container.innerHTML = rows.map((row) => {
+    const hiddenFields = [
+      "id",
+      "submissionGroupId",
+      "linkedCourseResponseId",
+      "createdAt",
+      "program",
+      "course"
+    ];
+
+    const ratingEntries = Object.entries(row).filter(([key]) => {
+      return (
+        !hiddenFields.includes(key) &&
+        key !== "submissionDate" &&
+        key !== "service" &&
+        key !== "servicePositiveFeedback" &&
+        key !== "serviceImprovementFeedback"
+      );
+    });
+
+    return `
+      <div class="response-card">
+        <h4>${escapeHTML(row.service || "Service Response")}</h4>
+
+        <p><strong>Submission Date:</strong> ${escapeHTML(row.submissionDate || "")}</p>
+
+        <div class="response-list">
+          ${ratingEntries.map(([question, answer]) => `
+            <div class="response-item">
+              <div class="response-question">${formatHeader(question)}</div>
+              <div class="${getRatingClass(answer)}">${escapeHTML(answer ?? "")}</div>
+            </div>
+          `).join("")}
+        </div>
+
+        <p><strong>What went well:</strong><br>${escapeHTML(row.servicePositiveFeedback || "")}</p>
+        <p><strong>What could be improved:</strong><br>${escapeHTML(row.serviceImprovementFeedback || "")}</p>
+      </div>
+    `;
+  }).join("");
+}
+
+function getRatingClass(value) {
+  if (value === "Poor") return "rating-pill rating-poor";
+  if (value === "Fair") return "rating-pill rating-fair";
+  if (value === "Excellent") return "rating-pill rating-excellent";
+  return "rating-pill";
 }
 
 function populateFilter(selectElement, values, placeholderText) {
