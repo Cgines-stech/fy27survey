@@ -293,3 +293,69 @@ button:hover {
     grid-template-columns: 1fr;
   }
 }
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.container {
+  width: calc(100% - 24px);
+}
+
+.matrix-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.matrix-table {
+  min-width: 720px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 100%;
+    margin: 0;
+    padding: 16px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .matrix-table {
+    min-width: 640px;
+    font-size: 0.85rem;
+  }
+
+  .matrix-table th,
+  .matrix-table td {
+    padding: 8px;
+  }
+
+  .matrix-table th:first-child,
+  .matrix-table td:first-child {
+    min-width: 180px;
+    white-space: normal;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.1rem;
+  }
+
+  .intro {
+    font-size: 0.95rem;
+  }
+
+  button,
+  select,
+  textarea,
+  input {
+    font-size: 1rem;
+    width: 100%;
+  }
+}
