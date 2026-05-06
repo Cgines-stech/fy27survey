@@ -132,31 +132,6 @@ onAuthStateChanged(auth, async (user) => {
       currentServiceRows.length +
       currentAdditionalFeedbackRows.length;
 
-    exportButton.addEventListener("click", () => {
-      if (filteredCourseRows.length > 0) {
-        downloadCSV(filteredCourseRows, "fy27-filtered-course-responses.csv");
-      }
-
-      if (filteredInstructorRows.length > 0) {
-        downloadCSV(filteredInstructorRows, "fy27-filtered-instructor-responses.csv");
-      }
-
-      if (filteredProgramRows.length > 0) {
-        downloadCSV(filteredProgramRows, "fy27-filtered-program-completion-responses.csv");
-      }
-
-      if (filteredServiceRows.length > 0) {
-        downloadCSV(filteredServiceRows, "fy27-filtered-service-responses.csv");
-      }
-
-      if (filteredAdditionalFeedbackRows.length > 0) {
-        downloadCSV(filteredAdditionalFeedbackRows, "fy27-filtered-additional-feedback-responses.csv");
-      }
-
-      adminStatus.textContent = "Filtered CSV download complete.";
-      adminStatus.style.color = "green";
-    });
-
     responseCount.textContent =
       `${currentCourseRows.length} course response(s), ` +
       `${currentInstructorRows.length} instructor response(s), ` +
@@ -172,27 +147,27 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 exportButton.addEventListener("click", () => {
-  if (currentCourseRows.length > 0) {
-    downloadCSV(currentCourseRows, "fy27-course-responses.csv");
+  if (filteredCourseRows.length > 0) {
+    downloadCSV(filteredCourseRows, "fy27-filtered-course-responses.csv");
   }
 
-  if (currentInstructorRows.length > 0) {
-    downloadCSV(currentInstructorRows, "fy27-instructor-responses.csv");
+  if (filteredInstructorRows.length > 0) {
+    downloadCSV(filteredInstructorRows, "fy27-filtered-instructor-responses.csv");
   }
 
-  if (currentProgramRows.length > 0) {
-    downloadCSV(currentProgramRows, "fy27-program-completion-responses.csv");
+  if (filteredProgramRows.length > 0) {
+    downloadCSV(filteredProgramRows, "fy27-filtered-program-completion-responses.csv");
   }
 
-  if (currentServiceRows.length > 0) {
-    downloadCSV(currentServiceRows, "fy27-service-responses.csv");
+  if (filteredServiceRows.length > 0) {
+    downloadCSV(filteredServiceRows, "fy27-filtered-service-responses.csv");
   }
 
-  if (currentAdditionalFeedbackRows.length > 0) {
-    downloadCSV(currentAdditionalFeedbackRows, "fy27-additional-feedback-responses.csv");
+  if (filteredAdditionalFeedbackRows.length > 0) {
+    downloadCSV(filteredAdditionalFeedbackRows, "fy27-filtered-additional-feedback-responses.csv");
   }
 
-  adminStatus.textContent = "CSV download complete.";
+  adminStatus.textContent = "Filtered CSV download complete.";
   adminStatus.style.color = "green";
 });
 
