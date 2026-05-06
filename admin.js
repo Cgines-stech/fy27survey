@@ -61,6 +61,12 @@ const programTable = document.getElementById("programTable");
 const serviceTable = document.getElementById("serviceTable");
 const additionalFeedbackTable = document.getElementById("additionalFeedbackTable");
 
+const courseResponseSection = document.getElementById("courseResponseSection");
+const instructorResponseSection = document.getElementById("instructorResponseSection");
+const programResponseSection = document.getElementById("programResponseSection");
+const additionalFeedbackResponseSection = document.getElementById("additionalFeedbackResponseSection");
+const serviceResponseSection = document.getElementById("serviceResponseSection");
+
 let filteredCourseRows = [];
 let filteredInstructorRows = [];
 let filteredProgramRows = [];
@@ -121,6 +127,7 @@ onAuthStateChanged(auth, async (user) => {
 
     setupFilters(userProfile);
     applyFiltersAndRenderTables(userProfile);
+    updateVisibleSections(userProfile);
 
     filterSection.style.display = "block";
     tableSection.style.display = "block";
@@ -435,6 +442,12 @@ function resetDashboard() {
   programTable.innerHTML = "";
   serviceTable.innerHTML = "";
   additionalFeedbackTable.innerHTML = "";
+
+  courseResponseSection.style.display = "none";
+instructorResponseSection.style.display = "none";
+programResponseSection.style.display = "none";
+additionalFeedbackResponseSection.style.display = "none";
+serviceResponseSection.style.display = "none";
 }
 
 function flattenObject(objectValue, prefix) {
@@ -777,3 +790,35 @@ function escapeHTML(value) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+
+function updateVisibleSections(userProfile) {
+  courseResponseSection.style.display = "none";
+  instructorResponseSection.style.display = "none";
+  programResponseSection.style.display = "none";
+  additionalFeedbackResponseSection.style.display = "none";
+  serviceResponseSection.style.display = "none";
+
+  if (userProfile.role === "admin") {
+    courseResponseSection.style.display = "block";
+    instructorResponseSection.style.display = "block";
+    programResponseSection.style.display = "block";
+    additionalFeedbackResponseSection.style.display = "block";
+    serviceResponseSection.style.display = "block";
+  }
+
+  if (userProfile.role === "director") {
+    courseResponseSection.style.display = "block";
+    instructorResponseSection.style.display = "block";
+    programResponseSection.style.display = "block";
+    additionalFeedbackResponseSection.style.display = "block";
+  }
+
+  if (userProfile.role === "instructor") {
+    instructorResponseSection.style.display = "block";
+  }
+
+  if (userProfile.role === "serviceDirector") {
+    serviceResponseSection.style.display = "block";
+  }
+}
+
