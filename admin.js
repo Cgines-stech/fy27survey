@@ -239,11 +239,18 @@ async function loadAllowedResponses(userProfile) {
     );
   }
 
-  if (userProfile.role === "director") {
+if (userProfile.role === "director") {
+
+  const allowedPrograms = Array.isArray(userProfile.programs)
+    ? userProfile.programs
+    : [];
+
+  for (const programName of allowedPrograms) {
+
     await loadCourseResponses(
       query(
         collection(db, "courseResponses"),
-        where("program", "==", userProfile.program),
+        where("program", "==", programName),
         orderBy("createdAt", "desc")
       )
     );
@@ -251,7 +258,7 @@ async function loadAllowedResponses(userProfile) {
     await loadInstructorResponses(
       query(
         collection(db, "instructorResponses"),
-        where("program", "==", userProfile.program),
+        where("program", "==", programName),
         orderBy("createdAt", "desc")
       )
     );
@@ -259,7 +266,7 @@ async function loadAllowedResponses(userProfile) {
     await loadProgramResponses(
       query(
         collection(db, "programCompletionResponses"),
-        where("program", "==", userProfile.program),
+        where("program", "==", programName),
         orderBy("createdAt", "desc")
       )
     );
@@ -267,11 +274,12 @@ async function loadAllowedResponses(userProfile) {
     await loadAdditionalFeedbackResponses(
       query(
         collection(db, "additionalFeedbackResponses"),
-        where("program", "==", userProfile.program),
+        where("program", "==", programName),
         orderBy("createdAt", "desc")
       )
     );
   }
+}
 
   if (userProfile.role === "instructor") {
     await loadInstructorResponses(
@@ -411,7 +419,7 @@ function getRoleSummary(userProfile) {
   }
 
   if (userProfile.role === "director") {
-    return `Role: Director — can export course, instructor, program, and additional feedback responses for ${userProfile.program}.`;
+    return `Role: Director — can export responses for ${(userProfile.programs || []).join(", ")}.`;
   }
 
   if (userProfile.role === "instructor") {
