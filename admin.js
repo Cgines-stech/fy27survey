@@ -70,6 +70,8 @@ const serviceResponseSection = document.getElementById("serviceResponseSection")
 const serviceFilter = document.getElementById("serviceFilter");
 const serviceFilterLabel = document.getElementById("serviceFilterLabel");
 
+const poorOnlyFilter = document.getElementById("poorOnlyFilter");
+
 let filteredCourseRows = [];
 let filteredInstructorRows = [];
 let filteredProgramRows = [];
@@ -611,27 +613,29 @@ function setupFilters(userProfile) {
     serviceFilterLabel.style.display = "grid";
   }
 
-  [
-    programFilter,
-    courseFilter,
-    instructorFilter,
-    serviceFilter,
-    startDateFilter,
-    endDateFilter
-  ].forEach((filter) => {
-    filter.onchange = () => applyFiltersAndRenderTables(userProfile);
-  });
+[
+  programFilter,
+  courseFilter,
+  instructorFilter,
+  serviceFilter,
+  startDateFilter,
+  endDateFilter,
+  poorOnlyFilter
+].forEach((filter) => {
+  filter.onchange = () => applyFiltersAndRenderTables(userProfile);
+});
 
-  clearFiltersButton.onclick = () => {
-    programFilter.value = "";
-    courseFilter.value = "";
-    instructorFilter.value = "";
-    serviceFilter.value = "";
-    startDateFilter.value = "";
-    endDateFilter.value = "";
+clearFiltersButton.onclick = () => {
+  programFilter.value = "";
+  courseFilter.value = "";
+  instructorFilter.value = "";
+  serviceFilter.value = "";
+  startDateFilter.value = "";
+  endDateFilter.value = "";
+  poorOnlyFilter.checked = false;
 
-    applyFiltersAndRenderTables(userProfile);
-  };
+  applyFiltersAndRenderTables(userProfile);
+};
 }
 
 function applyFiltersAndRenderTables(userProfile) {
@@ -688,7 +692,25 @@ function filterRows(rows, userProfile) {
       return false;
     }
 
-    return dateInRange(row.submissionDate);
+    if (!dateInRange(row.submissionDate)) return false;
+
+    if (poorOnlyFilter.checked && !rowHasPoorRating(row)) {
+      return false;
+    }
+
+    return true;
+  });
+}
+
+function rowHasPoorRating(row) {
+  return Object.entries(row).some(([key, value]) => {
+    const isRatingField =
+      key.startsWith("courseRating_") ||
+      key.startsWith("instructorRating_") ||
+      key.startsWith("programRating_") ||
+      key.startsWith("serviceRating_");
+
+    return isRatingField && value === "Poor";
   });
 }
 
