@@ -162,7 +162,16 @@ exportButton.addEventListener("click", () => {
   }
 
   if (filteredInstructorRows.length > 0) {
-    downloadCSV(filteredInstructorRows, "fy27-filtered-instructor-responses.csv");
+    const hiddenColumns =
+      currentUserProfile.role === "instructor"
+        ? ["isLastCourse", "instructorEmail"]
+        : [];
+
+    downloadCSV(
+      filteredInstructorRows,
+      "fy27-filtered-instructor-responses.csv",
+      hiddenColumns
+    );
   }
 
   if (filteredProgramRows.length > 0) {
@@ -170,7 +179,11 @@ exportButton.addEventListener("click", () => {
   }
 
   if (filteredServiceRows.length > 0) {
-    downloadCSV(filteredServiceRows, "fy27-filtered-service-responses.csv");
+    downloadCSV(
+      filteredServiceRows,
+      "fy27-filtered-service-responses.csv",
+      ["program", "course"]
+    );
   }
 
   if (filteredAdditionalFeedbackRows.length > 0) {
@@ -467,33 +480,34 @@ function formatTimestamp(timestamp) {
   return timestamp?.toDate ? timestamp.toDate().toLocaleString() : "";
 }
 
-function downloadCSV(rows, filename) {
+function downloadCSV(rows, filename, hiddenColumns = []) {
   const excludedFields = [
     "id",
     "submissionGroupId",
     "linkedCourseResponseId",
-    "createdAt"
+    "createdAt",
+    ...hiddenColumns
   ];
 
   const headers = getVisibleHeaders(rows).filter(
     (header) => !excludedFields.includes(header)
   );
 
-const csvRows = [
-  headers.map((header) => escapeCSV(formatHeader(header))).join(","),
-  ...rows.map((row) =>
-    headers
-      .map((header) => escapeCSV(row[header]))
-      .join(",")
-  )
-];
+  const csvRows = [
+    headers.map((header) => escapeCSV(formatHeader(header))).join(","),
+    ...rows.map((row) =>
+      headers
+        .map((header) => escapeCSV(row[header]))
+        .join(",")
+    )
+  ];
 
   const csvContent = csvRows.join("\n");
 
-const blob = new Blob(
-  ["\uFEFF" + csvContent],
-  { type: "text/csv;charset=utf-8;" }
-);
+  const blob = new Blob(
+    ["\uFEFF" + csvContent],
+    { type: "text/csv;charset=utf-8;" }
+  );
 
   const url = URL.createObjectURL(blob);
 
