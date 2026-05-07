@@ -158,13 +158,37 @@ button:hover {
     font-size: 1.5rem;
   }
 
-  .matrix-table-wrapper {
-    overflow-x: auto;
-  }
+.matrix-table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
-  .matrix-table {
-    min-width: 650px;
-  }
+.matrix-table {
+  width: 100%;
+  min-width: 620px;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.matrix-table th,
+.matrix-table td {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.matrix-table th:first-child,
+.matrix-table td:first-child {
+  width: 38%;
+  min-width: 220px;
+}
+
+.matrix-table th:not(:first-child),
+.matrix-table td:not(:first-child) {
+  width: 12.4%;
+  min-width: 80px;
+}
 
   .button-row {
     flex-direction: column-reverse;
@@ -233,20 +257,6 @@ button:hover {
   font-weight: bold;
 }
 
-/*
-.rating-fair {
-  background: #fff4d6;
-  color: #8a5a00;
-  font-weight: bold;
-}
-
-.rating-excellent {
-  background: #e8f5e9;
-  color: #1b5e20;
-  font-weight: bold;
-}
-*/
-
 .response-card {
   border: 1px solid #ddd;
   border-radius: 12px;
@@ -310,10 +320,6 @@ body {
   -webkit-overflow-scrolling: touch;
 }
 
-.matrix-table {
-  min-width: 720px;
-}
-
 @media (max-width: 600px) {
   .container {
     width: 100%;
@@ -324,19 +330,18 @@ body {
   }
 
   .matrix-table {
-    min-width: 640px;
-    font-size: 0.85rem;
+    min-width: 560px;
+    font-size: 0.8rem;
   }
 
   .matrix-table th,
   .matrix-table td {
-    padding: 8px;
+    padding: 6px;
   }
 
   .matrix-table th:first-child,
   .matrix-table td:first-child {
-    min-width: 180px;
-    white-space: normal;
+    min-width: 170px;
   }
 
   h1 {
@@ -498,17 +503,19 @@ body {
   font-weight: bold;
 }
 
+/*
 .rating-fair {
-  background: #fff4d6 !important;
-  color: #8a5a00 !important;
+  background: #fff4d6;
+  color: #8a5a00;
   font-weight: bold;
 }
 
 .rating-excellent {
-  background: #e8f5e9 !important;
-  color: #1b5e20 !important;
+  background: #e8f5e9;
+  color: #1b5e20;
   font-weight: bold;
 }
+*/
 
 #signInButton,
 #signOutButton,
