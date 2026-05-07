@@ -479,20 +479,21 @@ function downloadCSV(rows, filename) {
     (header) => !excludedFields.includes(header)
   );
 
-  const csvRows = [
-    headers.join(","),
-    ...rows.map((row) =>
-      headers
-        .map((header) => escapeCSV(row[header]))
-        .join(",")
-    )
-  ];
+const csvRows = [
+  headers.map((header) => escapeCSV(formatHeader(header))).join(","),
+  ...rows.map((row) =>
+    headers
+      .map((header) => escapeCSV(row[header]))
+      .join(",")
+  )
+];
 
   const csvContent = csvRows.join("\n");
 
-  const blob = new Blob([csvContent], {
-    type: "text/csv;charset=utf-8;"
-  });
+const blob = new Blob(
+  ["\uFEFF" + csvContent],
+  { type: "text/csv;charset=utf-8;" }
+);
 
   const url = URL.createObjectURL(blob);
 
@@ -821,6 +822,10 @@ function getUniqueValues(rows, key) {
 
 function formatHeader(header) {
   return header
+    .replace(/^courseRating_/, "")
+    .replace(/^instructorRating_/, "")
+    .replace(/^programRating_/, "")
+    .replace(/^serviceRating_/, "")
     .replace(/([A-Z])/g, " $1")
     .replace(/_/g, " ")
     .replace(/^./, (firstLetter) => firstLetter.toUpperCase());
