@@ -306,80 +306,226 @@ const data = {
       "Jon Woodgate"
     ],
   },
-/*
+
   "Electrical Apprenticeship": {
-    "TEEL 1110": [...tempInstructor],
-    "TEEL 1120": [...tempInstructor],
-    "TEEL 1210": [...tempInstructor],
-    "TEEL 1220": [...tempInstructor],
-    "TEEL 1310": [...tempInstructor],
-    "TEEL 1320": [...tempInstructor],
-    "TEEL 1410": [...tempInstructor],
-    "TEEL 1420": [...tempInstructor],
+    "TEEL 1110 — Electrician Apprentice IA": [
+      "Cody Post"
+    ],
+    "TEEL 1120 — Electrician Apprentice IB": [
+      "Cody Post"
+    ],
+    "TEEL 1210 — Electrician Apprentice IIA": [
+      "Jeremy Leavitt"
+    ],
+    "TEEL 1220 — Electrician Apprentice IIB": [
+      "Jeremy Leavitt"
+    ],
+    "TEEL 1310 — Electrician Apprentice IIIA": [
+      "Luke Mitchell"
+    ],
+    "TEEL 1320 — Electrician Apprentice IIIB": [
+      "Luke Mitchell"
+    ],
+    "TEEL 1410 — Electrician Apprentice IVA": [
+      "Brandon Jonsson"
+    ],
+    "TEEL 1420 — Electrician Apprentice IVB": [
+      "Brandon Jonsson"
+    ],
   },
 
   "Emergency Medical Technician": {
-    "TEEM 1011": [...tempInstructor],
+    "TTEEM 1011 — Emergency Medical Technician": [
+      "Adam Scott",
+      "Christopher Crispin"
+    ],
   },
 
   "Firefighter": {
-    "TEFF 1100": [...tempInstructor],
-    "TEFF 1200": [...tempInstructor],
+    "TEFF 1100 — Introduction to Fire": [
+      "Adam Scott"
+    ],
+    "TEFF 1200 — Firefighter": [
+      "Adam Scott"
+    ],
   },
 
   "Information Technology": {
-    "TEIT 1200": [...tempInstructor],
-    "TEIT 1210": [...tempInstructor],
-    "TEIT 1100": [...tempInstructor],
-    "TEIT 1170": [...tempInstructor],
-    "TEIT 2171": [...tempInstructor],
-    "TEIT 1300": [...tempInstructor],
-    "TEIT 2200": [...tempInstructor],
-    "TEIT 1050": [...tempInstructor],
-    "TEIT 2920": [...tempInstructor],
-    "TEIT 1800": [...tempInstructor],
-    "TEIT 1810": [...tempInstructor],
-    "TEIT 2900": [...tempInstructor],
+    "TEIT 1200 — A+ Core I": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 1210 — A+ Core II": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 1100 — Introduction to Networking": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 1170 — Computer Networks I": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 2171 — Computer Networks II": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 1300 — Linux Foundations": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 2200 — Security +": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 1050 — Career & Workplace Relations": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 2920 — Special Projects II": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 1800 — Certification Test Prep I": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 1810 — Certification Test Prep II": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
+    "TEIT 2900 — IT Externship": [
+      "Greg Davis",
+      "Austin Prince"
+    ],
   },
 
   "Master Esthetician": {
-    "TEES 1010": [...tempInstructor],
-    "TEES 1020": [...tempInstructor],
-    "TEES 1030": [...tempInstructor],
-    "TEES 2991": [...tempInstructor],
-    "TEES 2992": [...tempInstructor],
-    "TEES 2993": [...tempInstructor],
-    "TEES 2010": [...tempInstructor],
-    "TEES 2020": [...tempInstructor],
-    "TEES 2030": [...tempInstructor],
-    "TEES 2994": [...tempInstructor],
-    "TEES 2995": [...tempInstructor],
+    "TEES 1010 — Foundations": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 1020 — Basic Theory I": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 1030 — Basic Theory II": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 2991 — Basic Clinical I": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 2992 — Basic Clinical II": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 2993 — Basic Clinical III": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 2010 — Master Theory I": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 2020 — Master Theory II": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 2030 — Master Theory III": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 2994 — Master Clinical I": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
+    "TEES 2995 — Master Clinical II": [
+      "Roshni Mehta",
+      "April Terry"
+    ],
   },
 
   "Medical Assistant": {
-    "TEMA 1010": [...tempInstructor],
-    "TEMA 1080": [...tempInstructor],
-    "TEMA 1060": [...tempInstructor],
-    "TEMA 1065": [...tempInstructor],
-    "TEMA 1040": [...tempInstructor],
-    "TEMA 1020": [...tempInstructor],
-    "TEMA 1030": [...tempInstructor],
-    "TEMA 1098": [...tempInstructor],
-    "TEMA 1225": [...tempInstructor],
-    "TEMA 1250": [...tempInstructor],
-    "TEMA 1050": [...tempInstructor],
-    "TEMA 1900": [...tempInstructor],
-    "TEMA 1910": [...tempInstructor],
+    "TEMA 1010 — Introduction to Medical Assisting": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1080 — Medical Terminology": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1060 — Clinical Procedures": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1065 — Clinical Procedures Lab": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1040 — Anatomy and Physiology": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1020 — Medical Office I": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1030 — Medical Office II": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1098 — Medical Assistant Emergency and Wellness Procedures": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1225 — Assisting with Medical Specialties": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1250 — Medical Assisting Lab Procedures": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1050 — Pharmacology": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1900 — Medical Assistant Externship I": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
+    "TEMA 1910 — Medical Assistant Externship II": [
+      "Dusty Hunter",
+      "Candice Cox"
+    ],
   },
 
   "Medical Office Receptionist": {
-    "TEMA 1000": [...tempInstructor],
-    "TEMA 1080": [...tempInstructor],
-    "TEMA 1040": [...tempInstructor],
-    "TEMA 1020": [...tempInstructor],
-    "TEMA 1030": [...tempInstructor],
+    "TEMA 1000 — Introduction to Medical Office Receptionist": [
+      "Dusty Hunter",
+      "Ashlyn Ogden"
+    ],
+    "TEMA 1080 — Medical Terminology": [
+      "Dusty Hunter",
+      "Ashlyn Ogden"
+    ],
+    "TEMA 1040 — Anatomy and Physiology": [
+      "Dusty Hunter",
+      "Ashlyn Ogden"
+    ],
+    "TEMA 1020 — Medical Office I": [
+      "Dusty Hunter",
+      "Ashlyn Ogden"
+    ],
+    "TEMA 1030 — Medical Office II": [
+      "Dusty Hunter",
+      "Ashlyn Ogden"
+    ],
   },
-
+/*
   "Nursing Assistant": {
     "TENA 1110": [...tempInstructor],
     "TENA 1900": [...tempInstructor],

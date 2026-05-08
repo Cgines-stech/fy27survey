@@ -21,5 +21,20 @@ const instructorEmails = {
   "Leslie Clark": "lclark@stech.edu",
   "Rachel Baily": "rbaily@stech.edu",
   "Andrew Guile": "aguile@stech.edu",
-  "Jon Woodgate": "jwoodgate@stech.edu"
+  "Jon Woodgate": "jwoodgate@stech.edu",
+  "Cody Post": "cpost@stech.edu",
+  "Jeremy Leavitt": "jleavitt@stech.edu",
+  "Luke Mitchell": "lmitchell@stech.edu",
+  "Brandon Jonsson": "bjonsson@stech.edu",
+  "Greg Davis": "gdavis@stech.edu",
+  "Austin Prince": "aprince@stech.edu",
+  "Roshni Mehta": "rmehta@stech.edu",
+  "April Terry": "aterry@stech.edu",
+  "Dusty Hunter": "dhunter@stech.edu",
+  "Candice Cox": "ccox@stech.edu",
+  "Ashlyn Ogden": "aogden@stech.edu"
 };
+
+/*
+
+*/
