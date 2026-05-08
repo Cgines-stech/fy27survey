@@ -30,6 +30,7 @@ const instructorEmails = {
   "James Coats": "jcoats@stech.edu", // instructor
   "James Mullenaux": "jmullenaux@stech.edu", // serviceDirector - Financial Aid Services, Student Services, Services for Students with Disabilities, Veteran Services
   "Jason Adams": "jadams@stech.edu", // instructor
+  "Jason Parsons": "jparsons@stech.edu", // instructor
   "Jeremy Leavitt": "jleavitt@stech.edu", // instructor
   "Jon Woodgate": "jwoodgate@stech.edu", // director - Culinary Arts
   "Jordan Noel": "jnoel@stech.edu", // instructor
@@ -53,6 +54,7 @@ const instructorEmails = {
   "Rachel Baily": "rbaily@stech.edu", // instructor
   "Robert Blake": "rblake@stech.edu", // instructor
   "Roshni Mehta": "rmehta@stech.edu", // instructor
+  "Ryan Fisher": "rfisher@stech.edu", // serviceDirector - Facilities
   "Samantha Herbaugh": "sherbaugh@stech.edu", // instructor
   "Scott Leavitt": "sleavitt@stech.edu", // director - All programs
   "Shad Esplin": "sesplin@stech.edu", // instructor
@@ -60,5 +62,7 @@ const instructorEmails = {
   "Tim Hatch": "thatch@stech.edu", // director - Master Esthetician, Nursing Assistant, Pharmacy Technician, Practical Nursing
   "Tyler March": "tmarch@stech.edu", // instructor
   "Tyson Schurtz": "tschurtz@stech.edu", // instructor
-  "Vicki Swasey": "vswasey@stech.edu" // instructor
+  "Vicki Swasey": "vswasey@stech.edu", // instructor
+  "Wade Esplin": "wesplin@stech.edu", // director - Automotive Technology, Commercial Driver's License Class A
+  
 };

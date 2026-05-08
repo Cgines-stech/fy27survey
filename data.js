@@ -822,18 +822,122 @@ const data = {
       "Jacob Hartner",
       "Carl Johnson"
     ],
-    "TEWT 1045": [...tempInstructor],
-    "TEWT 1004": [...tempInstructor],
-    "TEWT 1010": [...tempInstructor],
-    "TEWT 1111": [...tempInstructor],
-    "TEWT 1311": [...tempInstructor],
-    "TEWT 1112": [...tempInstructor],
-    "TEWT 1312": [...tempInstructor],
-    "TEWT 1211": [...tempInstructor],
-    "TEWT 1620": [...tempInstructor],
-    "TEWT 1212": [...tempInstructor],
-    "TEWT 1411": [...tempInstructor],
-    "TEWT 1450": [...tempInstructor],
-    "TEWT 1135": [...tempInstructor],
+    "TEWT 1045 — Inspection, Metallurgy, and Blueprints": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1004 — Advanced Thermal Cutting and Brazing": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1010 — Measurement Systems": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1111 — Shielded Metal Arc Welding (SMAW) I": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1311 — Gas Metal Arc Welding (GMAW) I": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1112 — Shielded Metal Arc Welding (SMAW) II": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1312 — Gas Metal Arc Welding (GMAW) II": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1211 — Gas Tungsten Arc Welding (GTAW) I": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1620 — Fabrication Tools": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1212 — Gas Tungsten Arc Welding (GTAW) II": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1411 — Flux Cored Arc Welding (FCAW) I": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1450 — Flux Cored Arc Welding Gas Shielded: AWS Certification Preparation": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
+    "TEWT 1135 — Shielded Metal Arc Welding (SMAW) III": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
   },
 };
