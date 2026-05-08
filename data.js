@@ -4,230 +4,309 @@
 const data = {
   "Advanced Emergency Medical Technician": {
     "TEEM 1202 — Advanced Emergency Medical Technician": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Adam Scott",
+      "Christopher Crispin"
     ],
     "TEEM 1904 — AEMT Clinical Practice": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Adam Scott",
+      "Christopher Crispin"
     ]
   },
 
   "Automation Technology": {
     "TEAM 1010 — Essential Skills & Safety": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 1040 — Industrial Mechanics": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 1050 — Electrical Systems": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 1060 — Motor Controls": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 1070 — Programmable Logic Controllers": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 1030 — Hydraulics": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 1020 — Pneumatics": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 1080 — Applied System Diagnostics": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 2005 — Programmable Logic Controllers II": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 2210 — Fabrication and Repair": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 1510 — Process Control Components and Systems": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ],
     "TEAM 1640 — Electrical Systems II": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Post",
+      "Tyson Schurtz",
+      "Naomi Cook"
     ]
   },
 
   "Automotive Technology": {
     "TEAU 1050 — Workshop Practices and Safety": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 1600 — Electrical I": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 1800 — Engine Performance I": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 1055 — Math for Automotive Technicians": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 2640 — Electrical II": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 2840 — Engine Performance II": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 1740 — Heating and Air Conditioning": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 1500 — Brakes": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 1340 — Manual Drive Trains and Axles": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 1400 — Suspension and Steering": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 1240 — Automatic Transmissions and Transaxles": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 1140 — Engine Repair": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 2910 — Manufacturer Automotive Service Training - General Motors": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 2911 — Manufacturer Automotive Service Training - Toyota": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 2912 — Manufacturer Automotive Service Training - Mopar CAP": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 2913 — Manufacturer Automotive Service Training - Audi": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 2914 — Manufacturer Automotive Service Training - Hyundai": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
     "TEAU 2915 — Manufacturer Automotive Service Training - Mercedes-Benz": [
-      "Cash Gines",
-      "Neal Mason",
-      "Scott Leavitt",
-      "Danielle Maynard"
+      "Cody Dawson",
+      "Shad Esplin",
+      "Dallin Robinson",
+      "McKael Stapel"
     ],
   },
-/*
+
   "Commercial Driver's License Class A": {
-    "TECD 1100": [...tempInstructor],
+    "TECD 1100 — Commercial Driver's License Class A": [
+      "James Coats",
+      "Christopher Macias",
+      "Chantry Brindley",
+      "Terrance Bresina"
+    ],
   },
 
   "Culinary Arts": {
-    "TECA 1000": [...tempInstructor],
-    "TECA 1010": [...tempInstructor],
-    "TECA 1020": [...tempInstructor],
-    "TECA 1100": [...tempInstructor],
-    "TECA 1110": [...tempInstructor],
-    "TECA 1200": [...tempInstructor],
-    "TECA 1220": [...tempInstructor],
-    "TECA 1240": [...tempInstructor],
-    "TECA 1400": [...tempInstructor],
-    "TECA 1725": [...tempInstructor],
-    "TECA 1210": [...tempInstructor],
-    "TECA 1500": [...tempInstructor],
-    "TECA 1600": [...tempInstructor],
-    "TECA 1625": [...tempInstructor],
-    "TECA 1630": [...tempInstructor],
-    "TECA 1800": [...tempInstructor],
-    "TECA 1830": [...tempInstructor],
-    "TECA 1920": [...tempInstructor],
+    "TECA 1000 — Sanitation and Safety": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1010 — Introduction to Culinary Arts": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1020 — Culinary Math": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1100 — Culinary I": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1110 — Culinary Techniques": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1200 — Soups, Stocks and Sauces": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1220 — Flavor Essentials": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1240 — Pastas and Grains": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1400 — Garde Manger - Cold Kitchen": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1725 — Catering and Events": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1210 — World Cuisine": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1500 — Baking I": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1600 — Pastas and Grains": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1625 — Artisan Breads": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1630 — Custom Baking Service": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1800 — Job Seeking Skills": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1830 — ServeSafe Food Managers Course": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
+    "TECA 1920 — Culinary Arts Externship": [
+      "Leslie Clark",
+      "Rachel Baily",
+      "Andrew Guile",
+      "Jon Woodgate"
+    ],
   },
-
+/*
   "Electrical Apprenticeship": {
     "TEEL 1110": [...tempInstructor],
     "TEEL 1120": [...tempInstructor],
