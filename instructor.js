@@ -10,11 +10,11 @@ const instructorEmails = {
 
 // data.js
 
-const tempInstructors = [
+const tempInstructor = [
   "Cash Gines",
   "Neal Mason",
   "Scott Leavitt",
   "Danielle Maynard"
 ];
 
-export default tempInstructors;
+export default tempInstructor;
