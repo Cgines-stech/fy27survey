@@ -204,7 +204,7 @@ const data = {
       "Danielle Maynard"
     ],
   },
-
+/*
   "Commercial Driver's License Class A": {
     "TECD 1100": [...tempInstructor],
   },
@@ -404,6 +404,5 @@ const data = {
     "TEWT 1450": [...tempInstructor],
     "TEWT 1135": [...tempInstructor],
   },
+  */
 };
-
-export default data;
