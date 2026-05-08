@@ -1,8 +1,6 @@
 
 // data.js
 
-import tempInstructor from "./instructor.js";
-
 const data = {
   "Advanced Emergency Medical Technician": {
     "TEEM 1202 — Advanced Emergency Medical Technician": [
