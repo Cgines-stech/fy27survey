@@ -525,94 +525,303 @@ const data = {
       "Ashlyn Ogden"
     ],
   },
-/*
+
   "Nursing Assistant": {
-    "TENA 1110": [...tempInstructor],
-    "TENA 1900": [...tempInstructor],
+    "TENA 1110 — Nursing Assistant": [
+      "Vicki Swasey",
+      "Paul Struthers",
+      "Kami Clarke",
+      "Natalie Davis",
+      "Tim Hatch"
+    ],
+    "TENA 1900 — Nursing Assistant Clinical": [
+      "Vicki Swasey",
+      "Paul Struthers",
+      "Kami Clarke",
+      "Natalie Davis",
+      "Tim Hatch"
+    ],
   },
 
   "Paramedic": {
-    "TEPA 1000": [...tempInstructor],
-    "TEPA 1110": [...tempInstructor],
-    "TEPA 1111": [...tempInstructor],
-    "TEPA 2993": [...tempInstructor],
-    "TEPA 1501": [...tempInstructor],
-    "TEPA 1511": [...tempInstructor],
-    "TEPA 2994": [...tempInstructor],
-    "TEPA 2121": [...tempInstructor],
-    "TEPA 2999": [...tempInstructor],
+    "TEPA 1000 — Introduction to Paramedicine": [
+      "Nancy Small",
+      "Tyler March",
+      "Matthew Goodman"
+    ],
+    "TEPA 1110 — Paramedic Fundamentals": [
+      "Nancy Small",
+      "Tyler March",
+      "Matthew Goodman"
+    ],
+    "TEPA 1111 — Paramedic Fundamentals Lab": [
+      "Nancy Small",
+      "Tyler March",
+      "Matthew Goodman"
+    ],
+    "TEPA 2993 — Fundamental Externship": [
+      "Nancy Small",
+      "Tyler March",
+      "Matthew Goodman"
+    ],
+    "TEPA 1501 — Advanced Emergency Care": [
+      "Nancy Small",
+      "Tyler March",
+      "Matthew Goodman"
+    ],
+    "TEPA 1511 — Advanced Skills Lab": [
+      "Nancy Small",
+      "Tyler March",
+      "Matthew Goodman"
+    ],
+    "TEPA 2994 — Advanced Care Externship": [
+      "Nancy Small",
+      "Tyler March",
+      "Matthew Goodman"
+    ],
+    "TEPA 2121 — Paramedic Capstone Experience": [
+      "Nancy Small",
+      "Tyler March",
+      "Matthew Goodman"
+    ],
+    "TEPA 2999 — Capstone Field Externship": [
+      "Nancy Small",
+      "Tyler March",
+      "Matthew Goodman"
+    ],
   },
 
   "Pharmacy Technician": {
-    "TEPT 1010": [...tempInstructor],
-    "TEPT 1522": [...tempInstructor],
-    "TEPT 1100": [...tempInstructor],
-    "TEPT 1110": [...tempInstructor],
-    "TEPT 1220": [...tempInstructor],
-    "TEPT 1610": [...tempInstructor],
-    "TEPT 1900": [...tempInstructor],
+    "TEPT 1010 — Introduction to Pharmacy": [
+      "Eliza DeMille",
+      "Heidi Van Dine-Choate"
+    ],
+    "TEPT 1522 — Pharmacy Calculations": [
+      "Eliza DeMille",
+      "Heidi Van Dine-Choate"
+    ],
+    "TEPT 1100 — Community Pharmacy Practice": [
+      "Eliza DeMille",
+      "Heidi Van Dine-Choate"
+    ],
+    "TEPT 1110 — Institutional Pharmacy Practice": [
+      "Eliza DeMille",
+      "Heidi Van Dine-Choate"
+    ],
+    "TEPT 1220 — Sterile Compounding": [
+      "Eliza DeMille",
+      "Heidi Van Dine-Choate"
+    ],
+    "TEPT 1610 — Pharmacy Review": [
+      "Eliza DeMille",
+      "Heidi Van Dine-Choate"
+    ],
+    "TEPT 1900 — Pharmacy Technician Externship": [
+      "Eliza DeMille",
+      "Heidi Van Dine-Choate"
+    ],
   },
 
   "Phlebotomy": {
-    "TEPH 1015": [...tempInstructor],
+    "TEPH 1015 — Phlebotomy": [
+      "Karalee Wells",
+      "Dusty Hunter"
+    ],
   },
 
   "Plumbing Apprenticeship": {
-    "TEPL 1110": [...tempInstructor],
-    "TEPL 1120": [...tempInstructor],
-    "TEPL 1210": [...tempInstructor],
-    "TEPL 1220": [...tempInstructor],
-    "TEPL 1310": [...tempInstructor],
-    "TEPL 1320": [...tempInstructor],
-    "TEPL 1410": [...tempInstructor],
-    "TEPL 1420": [...tempInstructor],
+    "TEPL 1110 — Plumbing Apprentice IA": [
+      "Jason Parsons",
+      "Wade Esplin"
+    ],
+    "TEPL 1120 — Plumbing Apprentice IB": [
+      "Jason Parsons",
+      "Wade Esplin"
+    ],
+    "TEPL 1210 — Plumbing Apprentice IIA": [
+      "Jason Parsons",
+      "Wade Esplin"
+    ],
+    "TEPL 1220 — Plumbing Apprentice IIB": [
+      "Jason Parsons",
+      "Wade Esplin"
+    ],
+    "TEPL 1310 — Plumbing Apprentice IIIA": [
+      "Jason Parsons",
+      "Wade Esplin"
+    ],
+    "TEPL 1320 — Plumbing Apprentice IIIB": [
+      "Jason Parsons",
+      "Wade Esplin"
+    ],
+    "TEPL 1410 — Plumbing Apprentice IVA": [
+      "Jason Parsons",
+      "Wade Esplin"
+    ],
+    "TEPL 1420 — Plumbing Apprentice IVB": [
+      "Jason Parsons",
+      "Wade Esplin"
+    ],
   },
 
   "Practical Nursing": {
-    "TEPN 1010": [...tempInstructor],
-    "TEPN 1100": [...tempInstructor],
-    "TEPN 1200": [...tempInstructor],
-    "TEPN 1270": [...tempInstructor],
-    "TEPN 1170": [...tempInstructor],
-    "TEPN 2970": [...tempInstructor],
-    "TEPN 1470": [...tempInstructor],
-    "TEPN 1300": [...tempInstructor],
-    "TEPN 2170": [...tempInstructor],
-    "TEPN 2971": [...tempInstructor],
-    "TEPN 2570": [...tempInstructor],
+    "TEPN 1010 — Fundamentals of Nursing Practice": [
+      "Kylee McBride"
+    ],
+    "TEPN 1100 — Medical-Surgical Nursing Care": [
+      "Marie Smack"
+    ],
+    "TEPN 1200 — Introduction to Nursing Pharmacology": [
+      "Vicki Swasey"
+    ],
+    "TEPN 1270 — Nursing Pharmacology": [
+      "Marie Smack"
+    ],
+    "TEPN 1170 — Skills and Simulation Lab I": [
+      "Kylee McBride"
+    ],
+    "TEPN 2970 — Clinical Learning I": [
+      "Patricia Weller"
+    ],
+    "TEPN 1470 — Introductory Maternal-Newborn & Pediatric Nursing": [
+      "Vicki Swasey"
+    ],
+    "TEPN 1300 — Comprehensive Mental Health Nursing": [
+      "Patricia Weller"
+    ],
+    "TEPN 2170 — Skills and Simulation Lab II": [
+      "Marie Smack",
+      "Preston Dye"
+    ],
+    "TEPN 2971 — Clinical Learning II": [
+      "Patricia Weller"
+    ],
+    "TEPN 2570 — Career Readiness": [
+      "Kylee McBride"
+    ],
   },
 
   "Software Development": {
-    "TESD 1400": [...tempInstructor],
-    "TESD 1800": [...tempInstructor],
-    "TESD 1100": [...tempInstructor],
-    "TESD 1500": [...tempInstructor],
-    "TESD 1700": [...tempInstructor],
-    "TESD 1050": [...tempInstructor],
-    "TESD 1180": [...tempInstructor],
-    "TESD 1600": [...tempInstructor],
-    "TESD 1610": [...tempInstructor],
-    "TESD 1420": [...tempInstructor],
-    "TESD 1430": [...tempInstructor],
-    "TESD 1620": [...tempInstructor],
-    "TESD 2860": [...tempInstructor],
+    "TESD 1400 — Computer Programming": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1800 — Software Development": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1100 — Client-Side Web Development": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1500 — Database Development": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1700 — Server-side Web Development": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1050 — Job Seeking Skiills": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1180 — Advanced Web Development": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1600 — Android App Programming": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1610 — IOS App Programming": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1420 — Advanced Java Programming": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1430 — Python Programming": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 1620 — Computer Game Programming": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
+    "TESD 2860 — Final Advanced Project": [
+      "Jason Adams",
+      "Dallin Savage",
+      "Nathan Merrill"
+    ],
   },
 
   "Surgical Technology": {
-    "TESU 1010": [...tempInstructor],
-    "TESU 1022": [...tempInstructor],
-    "TESU 1030": [...tempInstructor],
-    "TESU 1040": [...tempInstructor],
-    "TESU 1051": [...tempInstructor],
-    "TESU 1061": [...tempInstructor],
-    "TESU 1070": [...tempInstructor],
-    "TESU 2900": [...tempInstructor],
-    "TESU 2910": [...tempInstructor],
-    "TESU 1221": [...tempInstructor],
+    "TESU 1010 — Introduction to Surgical Technology": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
+    "TESU 1022 — Microbiology and Infection Control": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
+    "TESU 1030 — Surgical Pharmacology": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
+    "TESU 1040 — Principles and Practices of Surgical Technology": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
+    "TESU 1051 — Surgical Procedures I": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
+    "TESU 1061 — Surgical Procedures II": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
+    "TESU 1070 — Surgical Procedures III": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
+    "TESU 2900 — Surgical Technology Clinical Externship I": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
+    "TESU 2910 — Surgical Technology Clinical Externship II": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
+    "TESU 1221 — Surgical Technology Seminar": [
+      "Samantha Herbaugh",
+      "Kellie Peacock"
+    ],
   },
 
   "Welding Technology": {
-    "TEWT 1000": [...tempInstructor],
+    "TEWT 1000 — Introduction to Welding and Cutting": [
+      "Robert Blake",
+      "Christopher Durand",
+      "Ethan Hollinger",
+      "McKael Stapel",
+      "Jordan Noel",
+      "Jacob Hartner",
+      "Carl Johnson"
+    ],
     "TEWT 1045": [...tempInstructor],
     "TEWT 1004": [...tempInstructor],
     "TEWT 1010": [...tempInstructor],
@@ -627,5 +836,4 @@ const data = {
     "TEWT 1450": [...tempInstructor],
     "TEWT 1135": [...tempInstructor],
   },
-  */
 };
