@@ -14,6 +14,7 @@ const instructorEmails = {
   "Christopher Crispin": "ccrispin@stech.edu", // instructor
   "Christopher Durand": "cdurand@stech.edu", // instructor
   "Christopher Macias": "cmacias@stech.edu", // instructor
+  "Clarissa Crosby": "crosby@stech.edu", // serviceDirector - Facilities, Technology and Campus IT
   "Coby Barnes": "cbarnes@stech.edu", // instructor
   "Cody Dawson": "cdawson@stech.edu", // instructor
   "Cody Post": "cpost@stech.edu", // instructor
@@ -24,6 +25,7 @@ const instructorEmails = {
   "Dusty Hunter": "dhunter@stech.edu", // instructor
   "Eliza DeMille": "edemille@stech.edu", // instructor
   "Ethan Hollinger": "ehollinger@stech.edu", // instructor
+  "Gail Rippa": "grippa@stech.edu", // director - Advanced Emergency Medical Services, Emergency Medical Services, Firefighter, Medical Assistant, Medical Office Receptionist, Paramedic, Phlebotomy, Surgical Technology
   "Greg Davis": "gdavis@stech.edu", // instructor
   "Heidi Van Dine-Choate": "hchoate@stech.edu", // instructor
   "Jacob Hartner": "jhartner@stech.edu", // instructor
@@ -31,9 +33,11 @@ const instructorEmails = {
   "James Mullenaux": "jmullenaux@stech.edu", // serviceDirector - Financial Aid Services, Student Services, Services for Students with Disabilities, Veteran Services
   "Jason Adams": "jadams@stech.edu", // instructor
   "Jason Parsons": "jparsons@stech.edu", // instructor
+  "Jeff Swift": "jswift@stech.edu", // serviceDirector - Technology and Campus IT
   "Jeremy Leavitt": "jleavitt@stech.edu", // instructor
   "Jon Woodgate": "jwoodgate@stech.edu", // director - Culinary Arts
   "Jordan Noel": "jnoel@stech.edu", // instructor
+  "JR Quarnberg": "jquarnberg@stech.edu", // director - Culinary Arts, Information Technology, Software Development
   "Kami Clarke": "kclarke@stech.edu", // instructor
   "Karalee Wells": "kwells@stech.edu", // instructor
   "Kellie Peacock": "kpeacock@stech.edu", // instructor
@@ -63,6 +67,6 @@ const instructorEmails = {
   "Tyler March": "tmarch@stech.edu", // instructor
   "Tyson Schurtz": "tschurtz@stech.edu", // instructor
   "Vicki Swasey": "vswasey@stech.edu", // instructor
-  "Wade Esplin": "wesplin@stech.edu", // director - Automotive Technology, Commercial Driver's License Class A
+  "Wade Esplin": "wesplin@stech.edu", // director - Automotive Technology, Commercial Driver's License Class A, Electrical Apprenticeship, Plumbing Apprenticeship
   
 };
