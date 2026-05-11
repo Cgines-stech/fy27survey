@@ -8,13 +8,13 @@ const instructorEmails = {
   "Austin Prince": "aprince@stech.edu", // instructor
   "Brandon Jonsson": "bjonsson@stech.edu", // instructor
   "Candice Cox": "ccox@stech.edu", // instructor
-  "Carl Johnson": "cdurand@stech.edu", // director - Automation Technology, Welding Technology
+  "Carl Johnson": "cjohnson@stech.edu", // director - Automation Technology, Welding Technology
   "Cash Gines": "cgines@stech.edu", //admin
   "Chantry Brindley": "cbrindley@stech.edu", // instructor
   "Christopher Crispin": "ccrispin@stech.edu", // instructor
   "Christopher Durand": "cdurand@stech.edu", // instructor
   "Christopher Macias": "cmacias@stech.edu", // instructor
-  "Clarissa Crosby": "crosby@stech.edu", // serviceDirector - Facilities, Technology and Campus IT
+  "Clarissa Crosby": "crosby@stech.edu", // serviceDirector - Facilities and Safety, Technology and Campus IT
   "Coby Barnes": "cbarnes@stech.edu", // instructor
   "Cody Dawson": "cdawson@stech.edu", // instructor
   "Cody Post": "cpost@stech.edu", // instructor
@@ -58,7 +58,7 @@ const instructorEmails = {
   "Rachel Baily": "rbaily@stech.edu", // instructor
   "Robert Blake": "rblake@stech.edu", // instructor
   "Roshni Mehta": "rmehta@stech.edu", // instructor
-  "Ryan Fisher": "rfisher@stech.edu", // serviceDirector - Facilities
+  "Ryan Fisher": "rfisher@stech.edu", // serviceDirector - Facilities and Safety
   "Samantha Herbaugh": "sherbaugh@stech.edu", // instructor
   "Scott Leavitt": "sleavitt@stech.edu", // director - All programs
   "Shad Esplin": "sesplin@stech.edu", // instructor
