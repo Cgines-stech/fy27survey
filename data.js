@@ -5,8 +5,7 @@ const data = {
   "Advanced Emergency Medical Technician": {
     "TEEM 1202 — Advanced Emergency Medical Technician": [
       "Adam Scott",
-      "Christopher Crispin",
-      "Cash Gines" // temp (DELETE)
+      "Christopher Crispin"
     ],
     "TEEM 1904 — AEMT Clinical Practice": [
       "Adam Scott",
