@@ -194,12 +194,6 @@ exportButton.addEventListener("click", () => {
 
   adminStatus.textContent = "Filtered CSV download complete.";
   adminStatus.style.color = "green";
-
-  console.log("Course:", filteredCourseRows.length);
-  console.log("Instructor:", filteredInstructorRows.length);
-  console.log("Program:", filteredProgramRows.length);
-  console.log("Service:", filteredServiceRows.length);
-  console.log("Additional:", filteredAdditionalFeedbackRows.length);
 });
 
 async function getUserProfile(email) {
