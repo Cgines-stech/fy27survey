@@ -62,7 +62,7 @@ const serviceQuestionsByService = {
     "Staff members are courteous:",
     "Staff members are knowledgeable and are able to answer my questions:",
     "Information about financial aid resources is complete, helpful, and easy to find:",
-    "Hours of operation meet my needs:",
+    "Hours of operation met my needs:",
     "Problems or questions about financial aid are handled in an efficient, professional manner:"
   ],
   "Services for Students with Disabilities": [
