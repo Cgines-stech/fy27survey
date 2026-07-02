@@ -26,9 +26,9 @@ const ratingOptions = ["Excellent", "Good", "Fair", "Poor", "Not Applicable"];
 
 const courseQuestions = [
   "You understand what you were expected to learn",
-  "The books, links, and resources easy to access",
-  "The work help you practice the skills taught",
-  "The tests accurately reflect what was covered in class",
+  "The books, links, and resources are easy to access",
+  "The work helps you practice the skills taught",
+  "The tests accurately reflect what is covered in class",
   "The amount of homework and in-class work is manageable"
 ];
 
