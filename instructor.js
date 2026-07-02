@@ -6,10 +6,10 @@ const instructorEmails = {
   "April Terry": "aterry@stech.edu", // instructor
   "Ashlyn Ogden": "aogden@stech.edu", // instructor
   "Austin Prince": "aprince@stech.edu", // instructor
-  "Berg Sandsness" : "bsandsness@stech.edu", //insturctor
+  "Berg Sandsness" : "bsandsness@stech.edu", // insturctor
   "Brandon Jonsson": "bjonsson@stech.edu", // instructor
   "Candice Cox": "ccox@stech.edu", // instructor
-  "Carl Johnson": "cjohnson@stech.edu", // director - Automation Technology, Welding Technology
+  "Carl Johnson": "cjohnson@stech.edu", // director - Automation Technology, Welding Technology, Unmanned Aircraft Systems
   "Cash Gines": "cgines@stech.edu", //admin
   "Chantry Brindley": "cbrindley@stech.edu", // instructor
   "Christopher Crispin": "ccrispin@stech.edu", // instructor
@@ -65,7 +65,7 @@ const instructorEmails = {
   "Shad Esplin": "sesplin@stech.edu", // instructor
   "Terrance Bresina": "tbresina@stech.edu", // instructor
   "Tim Hatch": "thatch@stech.edu", // director - Master Esthetician, Nursing Assistant, Pharmacy Technician, Practical Nursing
-  "Todd West": "twest@stech.edu", //instructor
+  "Todd West": "twest@stech.edu", // director - Unmanned Aircraft Systems 
   "Tyler March": "tmarch@stech.edu", // instructor
   "Tyson Schurtz": "tschurtz@stech.edu", // instructor
   "Vicki Swasey": "vswasey@stech.edu", // instructor
