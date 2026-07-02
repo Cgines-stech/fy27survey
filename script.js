@@ -25,7 +25,7 @@ const db = getFirestore(app);
 const ratingOptions = ["Excellent", "Good", "Fair", "Poor", "Not Applicable"];
 
 const courseQuestions = [
-  "You understand what you were expected to learn",
+  "You understand what you are expected to learn",
   "The books, links, and resources are easy to access",
   "The work helps you practice the skills taught",
   "The tests accurately reflect what is covered in class",
