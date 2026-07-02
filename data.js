@@ -817,23 +817,23 @@ const data = {
       "Todd West",
       "Berg Sandsness"
     ],
-    "TEUA 1011 — Unmanned Aircraft Systems Remote Pilot": [
+    "TEUV 1011 — Unmanned Aircraft Systems Remote Pilot": [
       "Todd West",
       "Berg Sandsness"
     ],
-    "TEUA 1021 — Unmanned Aircraft Systems Part 107 Test": [
+    "TEUV 1021 — Unmanned Aircraft Systems Part 107 Test": [
       "Todd West",
       "Berg Sandsness"
     ],
-    "TEUA 1201 — Unmanned Aircraft Systems Introduction to Fixed-Wings": [
+    "TEUV 1201 — Unmanned Aircraft Systems Introduction to Fixed-Wings": [
       "Todd West",
       "Berg Sandsness"
     ],
-    "TEUA 1301 — Unmanned Aircraft Systems Introduction to Multirotor": [
+    "TEUV 1301 — Unmanned Aircraft Systems Introduction to Multirotor": [
       "Todd West",
       "Berg Sandsness"
     ],
-  }, 
+  },
   
   "Welding Technology": {
     "TEWT 1000 — Introduction to Welding and Cutting": [
