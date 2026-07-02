@@ -812,6 +812,29 @@ const data = {
     ],
   },
 
+  "Unmmanned Aircraft Systems": {
+    "TEAV 1130 — Flight Principles": [
+      "Todd West",
+      "Berg Sandsness"
+    ],
+    "TEUA 1011 — Unmanned Aircraft Systems Remote Pilot": [
+      "Todd West",
+      "Berg Sandsness"
+    ],
+    "TEUA 1021 — Unmanned Aircraft Systems Part 107 Test": [
+      "Todd West",
+      "Berg Sandsness"
+    ],
+    "TEUA 1201 — Unmanned Aircraft Systems Introduction to Fixed-Wings": [
+      "Todd West",
+      "Berg Sandsness"
+    ],
+    "TEUA 1301 — Unmanned Aircraft Systems Introduction to Multirotor": [
+      "Todd West",
+      "Berg Sandsness"
+    ],
+  }, 
+  
   "Welding Technology": {
     "TEWT 1000 — Introduction to Welding and Cutting": [
       "Robert Blake",
@@ -941,27 +964,4 @@ const data = {
     ],
     
   },
-  
-  "Unmmanned Aircraft Systems": {
-    "TEAV 1130 — Flight Principles": [
-      "Todd West",
-      "Berg Sandsness"
-    ],
-    "TEUA 1011 — Unmanned Aircraft Systems Remote Pilot": [
-      "Todd West",
-      "Berg Sandsness"
-    ],
-    "TEUA 1021 — Unmanned Aircraft Systems Part 107 Test": [
-      "Todd West",
-      "Berg Sandsness"
-    ],
-    "TEUA 1201 — Unmanned Aircraft Systems Introduction to Fixed-Wings": [
-      "Todd West",
-      "Berg Sandsness"
-    ],
-    "TEUA 1301 — Unmanned Aircraft Systems Introduction to Multirotor": [
-      "Todd West",
-      "Berg Sandsness"
-    ],
-  }, 
 };
